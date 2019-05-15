@@ -1,26 +1,23 @@
-package com.mobiledev.edu.instakek.activity
+package com.mobiledev.edu.instakek.ui.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
-import android.os.AsyncTask
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-
 import com.mobiledev.edu.instakek.R
-import com.mobiledev.edu.instakek.data.network.NetworkUtils
+import com.mobiledev.edu.instakek.data.network.ApiEndpoints
 import com.mobiledev.edu.instakek.data.network.request.LoginRequest
 import com.mobiledev.edu.instakek.data.network.requestApi.AuthRequests
 import com.mobiledev.edu.instakek.data.network.response.TokenResponse
 import com.mobiledev.edu.instakek.utils.AuthUtils
 import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
-
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -48,20 +45,15 @@ class LoginActivity : AppCompatActivity() {
         })
 
         email_sign_in_button.setOnClickListener { attemptLogin() }
-        mAuthApi = NetworkUtils.Api.Auth
+        mAuthApi = ApiEndpoints.Auth
 
-        //AuthUtils.initJwtToken(this)
+        AuthUtils.initJwtToken(this)
 
         if (AuthUtils.DEFAULT_JWT_TOKEN != AuthUtils.TOKEN) {
             processToHomeActivity()
         }
     }
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private fun attemptLogin() {
         if (mTokenCallback != null) {
             if (mTokenCallback!!.isExecuted) return

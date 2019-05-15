@@ -11,7 +11,7 @@ import retrofit2.http.POST
 interface AuthRequests {
 
     companion object {
-        const val ENDPOINT_URL : String = NetworkUtils.Constants.AUTH_ENDPOINT_URL
+        const val ENDPOINT_URL: String = NetworkUtils.Constants.AUTH_ENDPOINT_URL
     }
 
     @POST("$ENDPOINT_URL/signin")

@@ -5,10 +5,10 @@ import android.preference.PreferenceManager
 
 object AuthUtils {
 
-//    private val LOGIN_KEY = "pref_login_key"
+    //    private val LOGIN_KEY = "pref_login_key"
 //    private val PASSWORD_KEY = "pref_password_key"
     private const val JWT_TOKEN_KEY = "pref_jwt_token_key"
-//
+    //
 //    val DEFAULT_LOGIN = "unknown"
 //    val DEFAULT_PASSWORD = "unknown"
     const val DEFAULT_JWT_TOKEN = "unknown"
@@ -46,7 +46,7 @@ object AuthUtils {
         TOKEN = getJwtToken(context)
     }
 
-    fun getBearerToken() : String = TOKEN_TYPE + TOKEN
+    fun getBearerToken(): String = TOKEN_TYPE + TOKEN
 
 
 }
