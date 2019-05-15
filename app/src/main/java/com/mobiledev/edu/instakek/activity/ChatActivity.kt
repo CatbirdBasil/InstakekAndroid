@@ -1,12 +1,13 @@
 package com.mobiledev.edu.instakek.activity
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.mobiledev.edu.instakek.R
 
-class HomeActivity : BaseActivity(0) {
 
-    private val Tag = "HomeActivity"
+class ChatActivity : BaseActivity(1) {
+
+    private val Tag = "ChatActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
