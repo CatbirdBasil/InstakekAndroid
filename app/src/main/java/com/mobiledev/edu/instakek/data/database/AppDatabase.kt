@@ -12,7 +12,7 @@ import com.mobiledev.edu.instakek.data.database.entity.User
 
 
 @Database(entities = [User::class, Chanell::class, ChanellType::class, ChatMessage::class], version = 1)
-//@TypeConverters(DateTypeConverter::class)
+@TypeConverters(DateTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     //abstract fun userDao(): UserDao
     //abstract fun subscriptionDao(): SubscriptionDao?
