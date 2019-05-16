@@ -2,7 +2,7 @@ package com.mobiledev.edu.instakek.data.network.requestApi
 
 import com.mobiledev.edu.instakek.data.network.NetworkUtils
 import com.mobiledev.edu.instakek.data.network.request.LoginRequest
-import com.mobiledev.edu.instakek.data.network.response.TokenResponse
+import com.mobiledev.edu.instakek.data.network.response.LoginResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -15,6 +15,6 @@ interface AuthRequests {
     }
 
     @POST("$ENDPOINT_URL/signin")
-    fun login(@Body usernameOrEmail: LoginRequest): Call<TokenResponse>
+    fun login(@Body usernameOrEmail: LoginRequest): Call<LoginResponse>
 
 }

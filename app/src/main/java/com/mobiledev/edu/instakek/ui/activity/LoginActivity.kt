@@ -14,7 +14,7 @@ import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.network.ApiEndpoints
 import com.mobiledev.edu.instakek.data.network.request.LoginRequest
 import com.mobiledev.edu.instakek.data.network.requestApi.AuthRequests
-import com.mobiledev.edu.instakek.data.network.response.TokenResponse
+import com.mobiledev.edu.instakek.data.network.response.LoginResponse
 import com.mobiledev.edu.instakek.utils.AuthUtils
 import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private var mAuthApi: AuthRequests? = null
-    private var mTokenCallback: Call<TokenResponse>? = null
+    private var mLoginCallback: Call<LoginResponse>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +55,9 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun attemptLogin() {
-        if (mTokenCallback != null) {
-            if (mTokenCallback!!.isExecuted) return
-            else mTokenCallback = null
+        if (mLoginCallback != null) {
+            if (mLoginCallback!!.isExecuted) return
+            else mLoginCallback = null
         }
 
         Log.d(TAG, "Attempting to log in")
@@ -103,11 +103,11 @@ class LoginActivity : AppCompatActivity() {
             //mAuthTask = UserLoginTask(usernameOrEmailStr, passwordStr)
             //mAuthTask!!.execute(null as Void?)
 
-            mTokenCallback = mAuthApi!!
+            mLoginCallback = mAuthApi!!
                     .login(LoginRequest(usernameOrEmailStr, passwordStr))
-            mTokenCallback!!.enqueue(object : Callback<TokenResponse> {
+            mLoginCallback!!.enqueue(object : Callback<LoginResponse> {
 
-                override fun onResponse(call: Call<TokenResponse>?, response: Response<TokenResponse>?) {
+                override fun onResponse(call: Call<LoginResponse>?, response: Response<LoginResponse>?) {
 
                     if (response!!.isSuccessful) {
                         val token = response.body()
@@ -122,7 +122,7 @@ class LoginActivity : AppCompatActivity() {
                     showProgress(false)
                 }
 
-                override fun onFailure(call: Call<TokenResponse>?, t: Throwable?) {
+                override fun onFailure(call: Call<LoginResponse>?, t: Throwable?) {
                     Log.d(TAG, "Error occurred while login", t)
                     showProgress(false)
                 }
