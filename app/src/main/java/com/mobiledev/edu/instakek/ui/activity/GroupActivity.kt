@@ -1,5 +1,4 @@
-package com.mobiledev.edu.instakek.activity
-
+package com.mobiledev.edu.instakek.ui.activity
 import android.os.Bundle
 import com.mobiledev.edu.instakek.R
 

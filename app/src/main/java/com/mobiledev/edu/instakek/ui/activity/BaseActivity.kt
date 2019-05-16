@@ -1,4 +1,4 @@
-package com.mobiledev.edu.instakek.activity
+package com.mobiledev.edu.instakek.ui.activity
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -6,7 +6,6 @@ import android.util.Log
 import com.mobiledev.edu.instakek.R
 
 import kotlinx.android.synthetic.main.bottom_navigation_view.*
-
 
 abstract class BaseActivity(val navNumber: Int) : AppCompatActivity() {
     private val TAG = "BaseActivity"
@@ -17,7 +16,6 @@ abstract class BaseActivity(val navNumber: Int) : AppCompatActivity() {
         bottom_navigation_view.enableItemShiftingMode(false)
         bottom_navigation_view.enableShiftingMode(false)
         bottom_navigation_view.enableAnimation(false)
-
 
         bottom_navigation_view.setOnNavigationItemSelectedListener {
             val nextActivity =

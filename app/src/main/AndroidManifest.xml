@@ -22,6 +22,11 @@
             </intent-filter>
         </activity>
         <activity android:name="com.mobiledev.edu.instakek.ui.activity.HomeActivity"></activity>
+        <activity android:name="com.mobiledev.edu.instakek.ui.activity.ChatActivity"/>
+        <activity android:name="com.mobiledev.edu.instakek.ui.activity.TagsActivity"/>
+        <activity android:name="com.mobiledev.edu.instakek.ui.activity.GroupActivity"/>
+        <activity android:name="com.mobiledev.edu.instakek.ui.activity.ProfileActivity"/>
+
     </application>
 
 </manifest>

@@ -1,7 +1,6 @@
 package com.mobiledev.edu.instakek.ui.activity
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.Toast
@@ -9,7 +8,9 @@ import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
 
-class HomeActivity : AppCompatActivity(), PostsAdapter.PostsAdapterOnClickHandler {
+class HomeActivity : BaseActivity(0), PostsAdapter.PostsAdapterOnClickHandler {
+
+    private val TAG = "HomeActivity"
 
     /*
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +28,9 @@ class HomeActivity : AppCompatActivity(), PostsAdapter.PostsAdapterOnClickHandle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        setupBottomNavigation()
 
-        mRecyclerView = findViewById(R.id.recyclerview_posts) as RecyclerView
+        mRecyclerView = findViewById(R.id.recyclerview_posts)
 
 //        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display) as TextView
 
