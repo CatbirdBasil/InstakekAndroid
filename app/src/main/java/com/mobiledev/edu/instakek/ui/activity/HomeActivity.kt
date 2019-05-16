@@ -8,7 +8,7 @@ import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
 
-class HomeActivity : BaseActivity(0), PostsAdapter.PostsAdapterOnClickHandler {
+class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler {
 
     private val TAG = "HomeActivity"
 

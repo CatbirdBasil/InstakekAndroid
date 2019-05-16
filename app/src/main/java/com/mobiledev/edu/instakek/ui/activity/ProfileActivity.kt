@@ -2,11 +2,10 @@ package com.mobiledev.edu.instakek.ui.activity
 
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import com.mobiledev.edu.instakek.R
 import kotlinx.android.synthetic.main.activity_profile.*
 
-class ProfileActivity : BaseActivity(4) {
+class ProfileActivity : BottomNavigationActivity(4) {
 
     private val Tag = "ProfileActivity"
 

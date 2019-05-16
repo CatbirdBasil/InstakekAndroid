@@ -7,8 +7,8 @@ import com.mobiledev.edu.instakek.R
 
 import kotlinx.android.synthetic.main.bottom_navigation_view.*
 
-abstract class BaseActivity(val navNumber: Int) : AppCompatActivity() {
-    private val TAG = "BaseActivity"
+abstract class BottomNavigationActivity(val navNumber: Int) : AppCompatActivity() {
+    private val TAG = "BottomNavigationActivity"
 
     fun setupBottomNavigation() {
         bottom_navigation_view.setIconSize(30f, 30f)

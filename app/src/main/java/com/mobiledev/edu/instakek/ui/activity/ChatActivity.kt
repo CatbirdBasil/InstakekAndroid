@@ -1,11 +1,10 @@
 package com.mobiledev.edu.instakek.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import com.mobiledev.edu.instakek.R
 
 
-class ChatActivity : BaseActivity(1) {
+class ChatActivity : BottomNavigationActivity(1) {
 
     private val Tag = "ChatActivity"
 

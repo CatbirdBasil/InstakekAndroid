@@ -3,7 +3,7 @@ import android.os.Bundle
 import com.mobiledev.edu.instakek.R
 
 
-class GroupActivity : BaseActivity(3) {
+class GroupActivity : BottomNavigationActivity(3) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
