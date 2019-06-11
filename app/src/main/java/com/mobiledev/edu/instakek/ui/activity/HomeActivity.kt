@@ -1,16 +1,23 @@
 package com.mobiledev.edu.instakek.ui.activity
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.widget.Toast
 import com.mobiledev.edu.instakek.R
+import com.mobiledev.edu.instakek.data.database.entity.User
+import com.mobiledev.edu.instakek.data.database.viewModel.UserViewModel
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
+import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
 
 class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler {
 
-    private val TAG = "HomeActivity"
+    private val TAG = HomeActivity::class.qualifiedName
 
     /*
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +27,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
 
     private var mRecyclerView: RecyclerView? = null
     private var mPostsAdapter: PostsAdapter? = null
+    private var mUserViewModel: UserViewModel? = null;
 
 //    private var mErrorMessageDisplay: TextView? = null
 
@@ -46,9 +54,30 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
 
         mRecyclerView!!.adapter = mPostsAdapter
 
+        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+
+        if (mUserViewModel != null) {
+            mUserViewModel!!.getUsers().observe(this, Observer<List<User>> {users ->
+
+                Log.d(TAG, "Users: " + users)
+
+                var list: ArrayList<String> = ArrayList()
+                users!!.forEach { list.add(it.username) }
+                mPostsAdapter!!.setPosts(list)
+            })
+        }
+
 //        mLoadingIndicator = findViewById(R.id.pb_loading_indicator) as ProgressBar
 
         loadPostsData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (mUserViewModel != null) {
+            mUserViewModel!!.invalidateDate()
+        }
     }
 
     private fun loadPostsData() {
@@ -69,7 +98,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
     }
 
     private fun showErrorMessage() {
-        mRecyclerView!!.makeVisible()
+        mRecyclerView!!.makeInvisible()
         //mErrorMessageDisplay!!.makeInvisible()
     }
 

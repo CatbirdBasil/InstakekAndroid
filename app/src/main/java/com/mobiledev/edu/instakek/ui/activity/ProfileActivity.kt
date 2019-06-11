@@ -9,22 +9,16 @@ class ProfileActivity : BottomNavigationActivity(4) {
 
     private val Tag = "ProfileActivity"
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         setupBottomNavigation()
         setButtonValue();
-
-
-
     }
 
     fun setUsername() {
 
     }
-
 
     //TODO delete this
     fun setButtonValue() {
@@ -32,7 +26,6 @@ class ProfileActivity : BottomNavigationActivity(4) {
         val subscriber: Int = 10
         val group: Int = 20
         val subscribtion: Int = 30
-
         //
 
         subscriptions_button.setText(Html.fromHtml("<font color=\"grey\"><big>subscribtion<big></font><br/><big>" + subscribtion + "<big>"))

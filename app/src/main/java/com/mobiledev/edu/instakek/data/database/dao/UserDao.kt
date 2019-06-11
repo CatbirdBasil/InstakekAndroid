@@ -9,27 +9,23 @@ import com.mobiledev.edu.instakek.data.database.entity.User
 @Dao
 interface UserDao {
 
-
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertUser(user: User)
 
     @Update
     fun updateUser(user: User)
 
-
     @Delete
     fun deleteUser(user: User)
 
     @Query("SELECT * FROM USER WHERE name == :name")
-    fun getUserByName(name: String): List<User>
+    fun getUsersByName(name: String): LiveData<List<User>>
 
     @Query("SELECT * FROM USER")
-    fun getUsers(): List<User>
+    fun getUsers(): LiveData<List<User>>
 
     @Query("SELECT * FROM USER WHERE id == :id")
-    fun getUserById(id: Int): List<User>
-
+    fun getUserById(id: Int): LiveData<User>
 
     //----------------------
     @Query("SELECT * FROM USER LIMIT :limit OFFSET :offset")

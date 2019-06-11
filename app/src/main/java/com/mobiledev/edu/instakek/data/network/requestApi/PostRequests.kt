@@ -5,15 +5,17 @@ import com.mobiledev.edu.instakek.data.network.response.LoginResponse
 import com.mobiledev.edu.instakek.data.network.utils.NetworkConstants
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
-interface AuthRequests {
+interface PostRequests {
 
     companion object {
-        const val ENDPOINT_URL: String = NetworkConstants.AUTH_ENDPOINT_URL
+        const val ENDPOINT_URL: String = NetworkConstants.POST_ENDPOINT_URL
     }
 
-    @POST("$ENDPOINT_URL/signin")
-    fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>
+    //@GET("$ENDPOINT_URL/")
+    //fun getAll(): Call<List<Post>>
+
 
 }

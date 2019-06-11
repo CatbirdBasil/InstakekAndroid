@@ -1,4 +1,4 @@
-package com.mobiledev.edu.instakek.data.network
+package com.mobiledev.edu.instakek.data.network.utils
 
 import com.mobiledev.edu.instakek.utils.AuthUtils
 import okhttp3.Authenticator

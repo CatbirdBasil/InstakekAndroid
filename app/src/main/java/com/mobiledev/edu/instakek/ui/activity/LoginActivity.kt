@@ -11,7 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.mobiledev.edu.instakek.R
-import com.mobiledev.edu.instakek.data.network.ApiEndpoints
+import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
 import com.mobiledev.edu.instakek.data.network.request.LoginRequest
 import com.mobiledev.edu.instakek.data.network.requestApi.AuthRequests
 import com.mobiledev.edu.instakek.data.network.response.LoginResponse
@@ -49,9 +49,10 @@ class LoginActivity : AppCompatActivity() {
 
         AuthUtils.initJwtToken(this)
 
-        if (AuthUtils.DEFAULT_JWT_TOKEN != AuthUtils.TOKEN) {
-            processToHomeActivity()
-        }
+        //TODO enable auth
+//        if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)) {
+//            processToHomeActivity()
+//        }
     }
 
     private fun attemptLogin() {
@@ -148,7 +149,6 @@ class LoginActivity : AppCompatActivity() {
 
         val shortAnimTime = resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 
-        //login_form.visibility = if (show) View.GONE else View.VISIBLE
         if (show) login_form.makeInvisible()
         else login_form.makeVisible()
 
@@ -157,14 +157,11 @@ class LoginActivity : AppCompatActivity() {
                 .alpha((if (show) 0 else 1).toFloat())
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        //login_form.visibility = if (show) View.GONE else View.VISIBLE
 
                         if (show) login_form.makeInvisible()
                         else login_form.makeVisible()
                     }
                 })
-
-        //login_progress.visibility = if (show) View.VISIBLE else View.GONE
 
         if (show) login_progress.makeVisible()
         else login_progress.makeInvisible()
@@ -174,8 +171,6 @@ class LoginActivity : AppCompatActivity() {
                 .alpha((if (show) 1 else 0).toFloat())
                 .setListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator) {
-                        //login_progress.visibility = if (show) View.VISIBLE else View.GONE
-
                         if (show) login_progress.makeVisible()
                         else login_progress.makeInvisible()
                     }

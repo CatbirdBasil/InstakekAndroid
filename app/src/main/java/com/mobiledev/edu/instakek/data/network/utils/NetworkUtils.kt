@@ -1,4 +1,4 @@
-package com.mobiledev.edu.instakek.data.network
+package com.mobiledev.edu.instakek.data.network.utils
 
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -11,7 +11,7 @@ object NetworkUtils {
     //private const val API_BASE_URL = "https://instakek.herokuapp.com/api"
 
     var retrofitClient: Retrofit = Retrofit.Builder()
-            .baseUrl(NetworkUtils.API_BASE_URL)
+            .baseUrl(API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient()
                     .newBuilder()
