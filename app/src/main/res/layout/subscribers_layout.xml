@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <android.support.design.widget.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:drawableStart="@drawable/search_icon2"
+        android:hint="     Find subscribers"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size"
+        android:textStyle="bold"
+        android:text="Invite"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/subscribers_list"
+        android:layout_width="match_parent"
+        android:layout_height="579dp"
+        android:paddingTop="5dp" />
+
+
+    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorWhitish"
+        android:elevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_navigation_menu">
+
+    </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
+
+</LinearLayout>
