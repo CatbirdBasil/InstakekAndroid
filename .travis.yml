@@ -33,6 +33,9 @@ licenses:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
+before_install:
+   - chmod +x gradlew
+
 before_script:
     - mkdir -p "$ANDROID_HOME/licenses"
     - cp ./our-licenses/* "$ANDROID_HOME/licenses/"
