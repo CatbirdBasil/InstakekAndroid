@@ -11,9 +11,9 @@ import java.sql.Date
         tableName = "post",
         foreignKeys = arrayOf(
                 ForeignKey(
-                        entity = Chanell::class,
+                        entity = Channel::class,
                         parentColumns = arrayOf("id"),
-                        childColumns = arrayOf("chanell_id"),
+                        childColumns = arrayOf("channel_id"),
                         onDelete = ForeignKey.NO_ACTION
                 ),
                 ForeignKey(
@@ -29,8 +29,8 @@ class Post (
     var id: Long?,
     @ColumnInfo(name = "sender_id")
     var senderId: Long,
-    @ColumnInfo(name = "chanell_id")
-    var chanellId: Long,
+    @ColumnInfo(name = "channel_id")
+    var channelId: Long,
     @ColumnInfo(name = "creation_time")
     var creationTime: Date,
     @ColumnInfo(name = "base_post_id")

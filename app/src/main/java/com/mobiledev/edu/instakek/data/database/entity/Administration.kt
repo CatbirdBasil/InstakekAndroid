@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey
     tableName = "chat_message",
     foreignKeys = arrayOf(
         ForeignKey(
-            entity = Chanell::class,
+            entity = Channel::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("channel_id"),
             onDelete = ForeignKey.NO_ACTION

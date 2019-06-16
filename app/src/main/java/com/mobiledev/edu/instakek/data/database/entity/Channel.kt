@@ -8,7 +8,7 @@ import java.util.*
 
 
 @Entity(
-    tableName = "chanell",
+    tableName = "channel",
     foreignKeys = arrayOf(
         ForeignKey(
             entity = User::class,
@@ -17,22 +17,22 @@ import java.util.*
             onDelete = ForeignKey.NO_ACTION
         ),
         ForeignKey(
-            entity = ChanellType::class,
+            entity = ChannelType::class,
             parentColumns = arrayOf("id"),
-            childColumns = arrayOf("chanell_type_id"),
+            childColumns = arrayOf("channel_type_id"),
             onDelete = ForeignKey.NO_ACTION
         )
     )
 )
-class Chanell(
+class Channel(
     @PrimaryKey(autoGenerate = true)
     var id: Long?,
     @ColumnInfo(name = "creator_id")
     var creatorId: Long,
-    @ColumnInfo(name = "chanell_type_id")
-    var chanelTyre: Long,
-    @ColumnInfo(name = "chanell_name")
-    var chanelName: String,
+    @ColumnInfo(name = "channel_type_id")
+    var channelTyre: Long,
+    @ColumnInfo(name = "channel_name")
+    var channelName: String,
     @ColumnInfo(name = "creation_date")
     var creationDate: Date,
     @ColumnInfo(name = "img_src")
