@@ -1,7 +1,6 @@
 package com.mobiledev.edu.instakek.ui.activity
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -10,8 +9,8 @@ import android.util.Log
 import android.widget.Toast
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.database.entity.User
-import com.mobiledev.edu.instakek.data.database.viewModel.UserViewModel
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
+import com.mobiledev.edu.instakek.ui.viewModel.UserViewModel
 import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
 
