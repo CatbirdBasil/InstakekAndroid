@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "541954044607",
+    "firebase_url": "https://instakekandroid.firebaseio.com",
+    "project_id": "instakekandroid",
+    "storage_bucket": "instakekandroid.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541954044607:android:3ed282b2b90ef58c",
+        "android_client_info": {
+          "package_name": "com.mobiledev.edu.instakek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541954044607-q205t2445bpcdvcpfc5a3kgmfim4ks24.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobiledev.edu.instakek",
+            "certificate_hash": "0ac109b14f6e13905c15a911f8d4471f6aaa5b46"
+          }
+        },
+        {
+          "client_id": "541954044607-tt32feauinn28521npj065bdj0vv8vpc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuPrp3vxMX75ZY7pNL9nWkJh9iAbj0f0A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541954044607-tt32feauinn28521npj065bdj0vv8vpc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

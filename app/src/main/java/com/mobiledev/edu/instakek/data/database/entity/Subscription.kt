@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey
     tableName = "subscription",
     foreignKeys = arrayOf(
         ForeignKey(
-            entity = Chanell::class,
+            entity = Channel::class,
             parentColumns = arrayOf("id"),
             childColumns = arrayOf("chanell_id"),
             onDelete = ForeignKey.NO_ACTION
@@ -25,8 +25,8 @@ import android.arch.persistence.room.PrimaryKey
 )
 class Subscription(
     @PrimaryKey(autoGenerate = false)
-    @ColumnInfo(name = "chanell_id")
-    var chanellId: Long?,
+    @ColumnInfo(name = "channel_id")
+    var channelId: Long?,
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "user_id")
     var userId: Long?,
