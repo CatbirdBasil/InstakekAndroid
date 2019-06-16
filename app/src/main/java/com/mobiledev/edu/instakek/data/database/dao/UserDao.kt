@@ -7,7 +7,7 @@ import com.mobiledev.edu.instakek.data.database.entity.User
 
 
 @Dao
-interface UserDao : BaseDao<User> {
+interface UserDao : GenericDao<User> {
 
     @Query("SELECT * FROM USER")
     override fun getAll(): LiveData<List<User>>

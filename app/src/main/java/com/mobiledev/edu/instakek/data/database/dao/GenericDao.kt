@@ -7,20 +7,24 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Update
 import com.mobiledev.edu.instakek.data.database.entity.User
 
-interface BaseDao<T> {
+interface GenericDao<T> {
     fun getAll(): LiveData<List<T>>
 
     fun getById(id: Long): LiveData<T>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(obj: T): Long
+    @JvmSuppressWildcards
+    fun insert(obj: T): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @JvmSuppressWildcards
     fun insertAll(vararg users: User): LongArray
 
     @Delete
-    suspend fun delete(obj: T)
+    @JvmSuppressWildcards
+    fun delete(obj: T)
 
     @Update
-    suspend fun update(obj: T)
+    @JvmSuppressWildcards
+    fun update(obj: T)
 }
