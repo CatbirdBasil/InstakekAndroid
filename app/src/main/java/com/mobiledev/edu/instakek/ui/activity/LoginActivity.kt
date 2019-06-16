@@ -11,10 +11,10 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import com.mobiledev.edu.instakek.R
-import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
 import com.mobiledev.edu.instakek.data.network.request.LoginRequest
 import com.mobiledev.edu.instakek.data.network.requestApi.AuthRequests
 import com.mobiledev.edu.instakek.data.network.response.LoginResponse
+import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
 import com.mobiledev.edu.instakek.utils.AuthUtils
 import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
 
         //TODO enable auth
 //        if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)) {
-//            processToHomeActivity()
+        processToHomeActivity()
 //        }
     }
 

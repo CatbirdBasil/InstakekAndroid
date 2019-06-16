@@ -2,7 +2,7 @@ package com.mobiledev.edu.instakek.data.repository.impl
 
 import android.arch.lifecycle.LiveData
 import android.content.Context
-import android.support.annotation.WorkerThread
+import android.os.AsyncTask
 import android.util.Log
 import com.mobiledev.edu.instakek.data.database.AppDatabase
 import com.mobiledev.edu.instakek.data.database.dao.UserDao
@@ -23,6 +23,7 @@ class UserRepositoryImpl(context: Context) : UserRepository {
     private val userApi: UserRequests = ApiEndpoints.User
 
     private var isRecent: Boolean = false
+    private var isFetchingData: Boolean = false
 
     override fun invalidateData() {
         isRecent = false
@@ -31,29 +32,38 @@ class UserRepositoryImpl(context: Context) : UserRepository {
     override fun getAll(): LiveData<List<User>> {
         Log.d(TAG, "Attempting to fetch users")
 
-        if (!isRecent) {
+        if (!isRecent && !isFetchingData) {
             Log.d(TAG, "Attempting to fetch users from api")
 
             val usersCallback = userApi.getAll()
+            isFetchingData = true
 
             usersCallback.enqueue(object : Callback<List<User>> {
 
                 override fun onResponse(call: Call<List<User>>?, response: Response<List<User>>?) {
                     if (response!!.isSuccessful) {
-                        response.body().forEach { Thread{ Runnable { userDao.insertUser(it) }} }
+                        insertAsync(response.body())
                         isRecent = true
                     } else {
                         Log.d(UserRepositoryImpl.TAG, "Error occurred while fetching users. Error code: ${response.code()}")
                     }
+                    isFetchingData = false
                 }
 
                 override fun onFailure(call: Call<List<User>>?, t: Throwable?) {
                     Log.d(UserRepositoryImpl.TAG, "Error occurred while fetching users", t)
+                    isFetchingData = false
                 }
             })
         }
 
         return userDao.getUsers()
+    }
+
+    private fun insertAsync(list: List<User>) {
+        AsyncTask.execute {
+            userDao.insertAll(*list.toTypedArray())
+        }
     }
 
     override fun getById(id: Int): LiveData<User> {

@@ -7,8 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkUtils {
 
-    private const val API_BASE_URL = "http://10.0.2.2:8080/api/"
-    //private const val API_BASE_URL = "https://instakek.herokuapp.com/api"
+    //private const val API_BASE_URL = "http://10.0.2.2:8080/api/"
+    private const val API_BASE_URL = "https://instakek.herokuapp.com/api/"
 
     var retrofitClient: Retrofit = Retrofit.Builder()
             .baseUrl(API_BASE_URL)

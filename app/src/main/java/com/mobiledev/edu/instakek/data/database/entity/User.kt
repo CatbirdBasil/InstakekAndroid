@@ -8,25 +8,25 @@ import java.util.*
 
 @Entity(tableName = "USER")
 class User(
-    @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = true)
     var id: Long?,
 
-    @ColumnInfo(name = "username")
+        @ColumnInfo(name = "username")
     var username: String,
 
-    @ColumnInfo(name = "email")
+        @ColumnInfo(name = "email")
     var email: String,
 
-    @ColumnInfo(name = "name")
+        @ColumnInfo(name = "name")
     var name: String,
 
-    @ColumnInfo(name = "registration_date")
+        @ColumnInfo(name = "registration_date")
     var registrationDate: Date,
 
-    @ColumnInfo(name = "img_src")
-    var imgSrc: String,
+        @ColumnInfo(name = "img_src")
+        var imgSrc: String?,
 
-    @ColumnInfo(name = "is_active")
+        @ColumnInfo(name = "is_active")
     var isActive: Boolean
 ) {
 
