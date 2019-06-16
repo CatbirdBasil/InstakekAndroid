@@ -5,7 +5,7 @@
     <!--android:endColor="#00FF00"-->
     <!--android:angle="270" />-->
 
-    <solid android:color="@color/whiteish"/>
+    <solid android:color="@color/colorWhitish"/>
     <!--<corners android:radius="5dp" />-->
     <stroke android:width="3px"/>
     <stroke android:color="@color/colorBlack"/>

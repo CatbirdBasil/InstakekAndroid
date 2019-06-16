@@ -19,4 +19,5 @@
     <string name="name">First name and second name</string>
     <string name="username">Username</string>
     <string name="registration">Registration</string>
+    <string name="reposted_fom">Reposted fom :</string>
 </resources>
