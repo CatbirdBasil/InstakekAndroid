@@ -42,4 +42,6 @@ abstract class BottomNavigationActivity(val navNumber: Int) : AppCompatActivity(
         }
         bottom_navigation_view.menu.getItem(navNumber).isChecked = true
     }
+
+
 }
