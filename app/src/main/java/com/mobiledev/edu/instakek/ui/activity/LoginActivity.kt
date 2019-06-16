@@ -50,9 +50,9 @@ class LoginActivity : AppCompatActivity() {
         AuthUtils.initJwtToken(this)
 
         //TODO enable auth
-//        if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)) {
-        processToHomeActivity()
-//        }
+        if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)) {
+            processToHomeActivity()
+        }
     }
 
     private fun attemptLogin() {
