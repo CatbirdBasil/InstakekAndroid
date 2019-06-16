@@ -50,9 +50,11 @@ class LoginActivity : AppCompatActivity() {
         AuthUtils.initJwtToken(this)
 
         //TODO enable auth
-//        if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)) {
+        if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)) {
         processToHomeActivity()
-//        }
+        }
+
+        create_acc.setOnClickListener { getToRegister() }
     }
 
     private fun attemptLogin() {
@@ -186,4 +188,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
+    private fun getToRegister()
+    {
+        var intent: Intent = Intent(this, RegisterActivity::class.java)
+
+        startActivity(intent)
+        finish()
+    }
 }
