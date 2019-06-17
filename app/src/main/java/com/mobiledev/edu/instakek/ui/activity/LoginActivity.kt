@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
 
         //TODO enable auth
         if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)) {
-        processToHomeActivity()
+            processToHomeActivity()
         }
 
         create_acc.setOnClickListener { getToRegister() }
