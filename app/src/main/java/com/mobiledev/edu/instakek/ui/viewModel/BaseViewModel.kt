@@ -4,9 +4,7 @@ import com.mobiledev.edu.instakek.data.repository.BaseRepository
 
 abstract class BaseViewModel<T>(val repo: BaseRepository<T>) {
 
-    fun invalidateData() {
-        repo.invalidateData()
-    }
+    fun invalidateData() = repo.invalidateData()
 
-
+    fun isFetchingData() = repo.isCurrentlyFetchingData()
 }

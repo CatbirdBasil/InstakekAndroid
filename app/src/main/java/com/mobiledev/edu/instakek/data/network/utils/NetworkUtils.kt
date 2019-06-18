@@ -1,5 +1,8 @@
 package com.mobiledev.edu.instakek.data.network.utils
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -21,8 +24,23 @@ object NetworkUtils {
                     .build())
             .build()
 
-    object Constants {
-        const val AUTH_ENDPOINT_URL: String = "auth"
+    fun isOnline(applicationContext: Context): Boolean {
+
+        val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo ?: return false
+
+        when (activeNetwork.type) {
+            ConnectivityManager.TYPE_WIFI ->
+                if ((activeNetwork.state == NetworkInfo.State.CONNECTED
+                                || activeNetwork.state == NetworkInfo.State.CONNECTING))
+                    return true
+            ConnectivityManager.TYPE_MOBILE ->
+                if ((activeNetwork.state == NetworkInfo.State.CONNECTED
+                                || activeNetwork.state == NetworkInfo.State.CONNECTING))
+                    return true
+            else -> return false
+        }
+        return false
     }
 
 }

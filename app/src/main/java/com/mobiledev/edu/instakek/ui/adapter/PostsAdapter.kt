@@ -19,9 +19,13 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
 
     inner class PostsAdapterViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val mLikesTextView: TextView
+        val mChannelNameTextView: TextView
+        val mDescriptionTextView: TextView
 
         init {
             mLikesTextView = view.findViewById(R.id.tv_post_likes) as TextView
+            mChannelNameTextView = view.findViewById(R.id.username_text) as TextView
+            mDescriptionTextView = view.findViewById(R.id.caption_text) as TextView
 
             view.setOnClickListener(this)
         }
@@ -45,10 +49,19 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
     }
 
     override fun onBindViewHolder(postsAdapterViewHolder: PostsAdapterViewHolder, position: Int) {
-        val postLikes = mPosts!![position]
-//        postsAdapterViewHolder.mLikesTextView.text = postLikes.text//.channel!!.channelName
-//        postsAdapterViewHolder.mLikesTextView.text = postLikes.channel!!.channelName
-        postsAdapterViewHolder.mLikesTextView.text = postLikes.likesAmount.toString() + " Keks"
+        val currentPost = mPosts!![position]
+
+        while (currentPost.channel == null) {
+            postsAdapterViewHolder.mChannelNameTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_channel_name_loading)
+        }
+        postsAdapterViewHolder.mChannelNameTextView.text = currentPost.channel!!.channelName
+
+        while (currentPost.likesAmount == null) {
+            postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_likes_loading)
+        }
+        postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_likes, currentPost.likesAmount.toString())
+
+        postsAdapterViewHolder.mDescriptionTextView.text = currentPost.text
     }
 
     override fun getItemCount(): Int {

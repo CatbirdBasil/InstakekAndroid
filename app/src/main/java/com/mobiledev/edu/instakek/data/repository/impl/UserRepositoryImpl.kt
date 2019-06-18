@@ -9,12 +9,14 @@ import com.mobiledev.edu.instakek.data.database.dao.UserDao
 import com.mobiledev.edu.instakek.data.database.entity.User
 import com.mobiledev.edu.instakek.data.network.requestApi.UserRequests
 import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
+import com.mobiledev.edu.instakek.data.network.utils.NetworkUtils
+import com.mobiledev.edu.instakek.data.repository.FetchingRepository
 import com.mobiledev.edu.instakek.data.repository.UserRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserRepositoryImpl(context: Context) : UserRepository {
+class UserRepositoryImpl(val context: Context) : UserRepository, FetchingRepository() {
 
     companion object {
         private val TAG = UserRepositoryImpl::class.qualifiedName
@@ -22,17 +24,10 @@ class UserRepositoryImpl(context: Context) : UserRepository {
     private val userDao: UserDao = AppDatabase.getAppDataBase(context)!!.userDao()
     private val userApi: UserRequests = ApiEndpoints.User
 
-    private var isRecent: Boolean = false
-    private var isFetchingData: Boolean = false
-
-    override fun invalidateData() {
-        isRecent = false
-    }
-
     override fun getAll(): LiveData<List<User>> {
         Log.d(TAG, "Attempting to fetch users")
 
-        if (!isRecent && !isFetchingData) {
+        if (!isRecent && !isFetchingData && NetworkUtils.isOnline(context.applicationContext)) {
             Log.d(TAG, "Attempting to fetch users from api")
 
             val usersCallback = userApi.getAll()

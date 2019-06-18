@@ -2,17 +2,22 @@ package com.mobiledev.edu.instakek.ui.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.SystemClock
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Toast
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.database.entity.Post
+import com.mobiledev.edu.instakek.data.network.utils.NetworkUtils
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
 import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
+import com.mobiledev.edu.instakek.utils.ActivityUtils
 import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler {
 
@@ -22,7 +27,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
 
     private var mRecyclerView: RecyclerView? = null
     private var mPostsAdapter: PostsAdapter? = null
-    private var mPostViewModel: PostViewModel? = null;
+    private var mPostViewModel: PostViewModel? = null
 //    private var mUserViewModel: UserViewModel? = null;
 
 
@@ -63,6 +68,27 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
             })
         }
 
+        if (swipe_refresh_home != null) {
+            swipe_refresh_home.setOnRefreshListener {
+
+                if (!NetworkUtils.isOnline(this.applicationContext)) {
+                    ActivityUtils.showNoInternetToast(applicationContext)
+                    swipe_refresh_home.isRefreshing = false
+                } else {
+                    Log.d(TAG, "CUSTOM_LOG: Starting to refresh posts...")
+                    mPostViewModel!!.invalidateData()
+
+                    AsyncTask.execute {
+                        while (mPostViewModel!!.isFetchingData()) {
+                            SystemClock.sleep(10)
+                        }
+                        swipe_refresh_home.isRefreshing = false
+                        Log.d(TAG, "Finished fetching posts from api")
+                    }
+                }
+            }
+        }
+
         //                if (mUserViewModel != null) {
 //            mUserViewModel!!.getUsers().observe(this, Observer<List<User>> {users ->
 //
@@ -84,6 +110,10 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
 
         if (mPostViewModel != null) {
             mPostViewModel!!.invalidateData()
+        }
+
+        if (!NetworkUtils.isOnline(this.applicationContext)) {
+            ActivityUtils.showNoInternetToast(applicationContext)
         }
 
 //        if (mUserViewModel != null) {
@@ -112,65 +142,4 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
         mRecyclerView!!.makeInvisible()
         //mErrorMessageDisplay!!.makeInvisible()
     }
-
-    /*inner class FetchWeatherTask : AsyncTask<String, Void, Array<String>>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            mLoadingIndicator!!.visibility = View.VISIBLE
-        }
-
-        override fun doInBackground(vararg params: String): Array<String>? {
-
-            /* If there's no zip code, there's nothing to look up. */
-            if (params.size == 0) {
-                return null
-            }
-
-            val location = params[0]
-            val weatherRequestUrl = NetworkUtils.buildUrl(location)
-
-            try {
-                val jsonWeatherResponse = NetworkUtils
-                        .getResponseFromHttpUrl(weatherRequestUrl)
-
-                return OpenWeatherJsonUtils
-                .getSimpleWeatherStringsFromJson(this@MainActivity, jsonWeatherResponse)
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                return null
-            }
-
-        }
-
-        override fun onPostExecute(weatherData: Array<String>?) {
-            mLoadingIndicator!!.visibility = View.INVISIBLE
-            if (weatherData != null) {
-                showPostsDataView()
-                mPostsAdapter!!.setWeatherData(weatherData)
-            } else {
-                showErrorMessage()
-            }
-        }
-    }*/
-
-    /*override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.forecast, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        if (id == R.id.action_refresh) {
-            mPostsAdapter!!.setWeatherData(null)
-            loadPostsData()
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
-    }*/
-
 }
