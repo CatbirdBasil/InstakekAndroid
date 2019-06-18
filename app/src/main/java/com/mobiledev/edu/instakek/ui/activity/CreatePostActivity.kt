@@ -1,6 +1,7 @@
 package com.mobiledev.edu.instakek.ui.activity
 
 import android.app.ProgressDialog
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -22,13 +23,14 @@ import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.mobiledev.edu.instakek.R
+import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
 import com.mobiledev.edu.instakek.utils.AuthUtils
 import com.squareup.picasso.Picasso
 import java.io.IOException
 
 
 class CreatePostActivity : AppCompatActivity() {
-
+    private var mPostViewModel: PostViewModel? = null
 
     companion object {
         private val PICK_IMAGE_REQUEST = 234
@@ -64,7 +66,7 @@ class CreatePostActivity : AppCompatActivity() {
         buttonUpload!!.setOnClickListener{uploadFile()}
         backButton!!.setOnClickListener{goBack()}
 
-
+        mPostViewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
 
     }
 

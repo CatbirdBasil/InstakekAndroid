@@ -46,13 +46,23 @@
         android:id="@+id/name"
         android:layout_margin="16dp"
         android:inputType="textPersonName"
-        android:hint="@string/name"
+        android:hint="First Name"
         android:textColorLink="@color/colorPepe"
         />
 
 
     <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/name"
+        android:id="@+id/secondname"
+        android:layout_margin="16dp"
+        android:inputType="textPersonName"
+        android:hint="Second name"
+        android:textColorLink="@color/colorPepe"
+        />
+
+
+    <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/secondname"
         android:id="@+id/username"
         android:layout_margin="16dp"
         android:inputType="textPersonName"
@@ -77,6 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/passwod"
         android:background="@color/colorPepe"
         android:text="@string/registration"
+        android:id="@+id/register_buttn"
         />
 
 

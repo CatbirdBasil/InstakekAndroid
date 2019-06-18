@@ -20,6 +20,9 @@ class User(
         @ColumnInfo(name = "name")
         var name: String,
 
+        @ColumnInfo(name = "name")
+        var surname: String,
+
         @ColumnInfo(name = "registration_date")
         var registrationDate: Date,
 

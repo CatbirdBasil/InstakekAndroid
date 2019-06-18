@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.database.entity.Post
+import com.mobiledev.edu.instakek.data.database.entity.Tag
 import com.mobiledev.edu.instakek.data.network.utils.NetworkUtils
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
 import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
@@ -159,7 +160,10 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
     }
 
     override fun onImageClick(post: Post) {
-        ImageViewer.Builder(this, post.contents)
+        Log.d("Home",post.contents!![0].contentLink)
+             var listimages  =arrayOf (post.contents!![0].contentLink);
+
+        ImageViewer.Builder(this, listimages)
                 // .setPlaceholderImage();
                 // .setStartPosition(startPosition)
                 .allowZooming(true)

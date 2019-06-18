@@ -118,7 +118,7 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
         }
         postsAdapterViewHolder.mDescriptionTextView.text = currentPost.text
 
-        changeButtonAppearence(postsAdapterViewHolder, currentPost)
+        changeButtonAppearance(postsAdapterViewHolder, currentPost)
 
         if(currentPost.contents!=null) {
             Picasso.get()
