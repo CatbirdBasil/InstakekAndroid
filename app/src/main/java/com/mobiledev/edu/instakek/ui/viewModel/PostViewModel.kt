@@ -22,4 +22,11 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         return postRepository.getPostsFromSubscribedChannels()
     }
 
+    fun likePost(postId: Long) {
+        postRepository.likePost(postId)
+    }
+
+    fun dislikePost(postId: Long) {
+        postRepository.dislikePost(postId)
+    }
 }

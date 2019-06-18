@@ -184,6 +184,7 @@
     android:src="@drawable/image_placeholder"/>
 
     <Button
+        android:layout_marginTop="2dp"
         android:id="@+id/like_image"
         android:layout_width="50dp"
         android:layout_height="27dp"
@@ -198,10 +199,11 @@
 
 <ImageButton
     android:id="@+id/comment_image"
+
     app:layout_constraintStart_toEndOf="@id/like_image"
     app:layout_constraintTop_toTopOf="@id/like_image"
     app:layout_constraintBottom_toBottomOf="@id/like_image"
-    android:layout_marginTop="6dp"
+    android:layout_marginTop="8dp"
     android:layout_height="35dp"
     android:layout_width="49dp"
     android:padding="10dp"
@@ -213,7 +215,7 @@
     app:layout_constraintStart_toEndOf="@id/comment_image"
     app:layout_constraintTop_toTopOf="@id/like_image"
     app:layout_constraintBottom_toBottomOf="@id/like_image"
-    android:layout_marginTop="6dp"
+    android:layout_marginTop="8dp"
     android:layout_height="35dp"
     android:layout_width="45dp"
     android:padding="10dp"

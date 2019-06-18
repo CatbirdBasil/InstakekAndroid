@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import com.google.android.gms.tasks.OnFailureListener
@@ -37,6 +38,7 @@ class CreatePostActivity : AppCompatActivity() {
 
     private var  buttonChoose: Button? = null;
     private var buttonUpload: Button? = null;
+    private var backButton: ImageButton? = null;
 
     //ImageView
     private var imageView: ImageView? = null;
@@ -51,6 +53,8 @@ class CreatePostActivity : AppCompatActivity() {
 
         buttonChoose = findViewById(R.id.buttonChoose)
         buttonUpload = findViewById(R.id.buttonUpload)
+        backButton = findViewById(R.id.back_button)
+
 
         imageView = findViewById(R.id.imageView)
 
@@ -58,13 +62,18 @@ class CreatePostActivity : AppCompatActivity() {
         //attaching listener
         buttonChoose!!.setOnClickListener{showFileChooser()}
         buttonUpload!!.setOnClickListener{uploadFile()}
-
+        backButton!!.setOnClickListener{goBack()}
 
 
 
     }
 
+    private fun goBack() {
+        var intent: Intent = Intent(this, ProfileActivity::class.java)
 
+        startActivity(intent)
+        finish()
+    }
 
 
     private fun showFileChooser() {
@@ -127,11 +136,14 @@ class CreatePostActivity : AppCompatActivity() {
 
 
 
+
                             Picasso.get()
                                     .load("gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg"))
                                     //.fit()
                                     .into(imageView)
                         }
+
+
 
                         //TODO from here insert with  "gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg")
                     })

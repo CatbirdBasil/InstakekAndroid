@@ -8,7 +8,7 @@ import java.util.*
 
 @Entity(tableName = "USER")
 class User(
-        @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
         var id: Long?,
 
         @ColumnInfo(name = "username")

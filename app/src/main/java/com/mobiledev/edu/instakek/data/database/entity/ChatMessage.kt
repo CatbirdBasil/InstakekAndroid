@@ -25,15 +25,15 @@ import java.sql.Date
     )
 )
 class ChatMessage(
-    @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
     var id: Long?,
-    @ColumnInfo(name = "sender_id")
+        @ColumnInfo(name = "sender_id")
     var senderId: Long,
-    @ColumnInfo(name = "reciever_id")
+        @ColumnInfo(name = "reciever_id")
     var reciverId: Long,
-    @ColumnInfo(name = "message_text")
+        @ColumnInfo(name = "message_text")
     var messageText: String,
-    @ColumnInfo(name = "message_time")
+        @ColumnInfo(name = "message_time")
     var messageTime: Date
 ) {
 

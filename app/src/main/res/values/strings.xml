@@ -26,4 +26,7 @@
     <string name="post_likes">%1$s keks given</string>
     <string name="post_likes_loading">Loading your keks...</string>
     <string name="post_channel_name_loading">Loading channel name...</string>
+    <string name="username_or_Email">Username or Email</string>
+
+
 </resources>

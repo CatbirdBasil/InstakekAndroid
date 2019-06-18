@@ -19,7 +19,8 @@ import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
 import kotlinx.android.synthetic.main.activity_home.*
 
-class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler {
+class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler,
+        PostsAdapter.LikeOnClickHandler {
 
     companion object {
         private val TAG = HomeActivity::class.qualifiedName
@@ -51,7 +52,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
 
         mRecyclerView!!.setHasFixedSize(true)
 
-        mPostsAdapter = PostsAdapter(this)
+        mPostsAdapter = PostsAdapter(this, this)
 
         mRecyclerView!!.adapter = mPostsAdapter
 
@@ -82,7 +83,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
                         while (mPostViewModel!!.isFetchingData()) {
                             SystemClock.sleep(10)
                         }
-                        swipe_refresh_home.isRefreshing = false
+                        runOnUiThread { swipe_refresh_home.isRefreshing = false }
                         Log.d(TAG, "Finished fetching posts from api")
                     }
                 }
@@ -131,6 +132,16 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
         val context = this
         Toast.makeText(context, weatherForDay, Toast.LENGTH_SHORT)
                 .show()
+    }
+
+    override fun onLikeClick(post: Post) {
+        val context = this
+
+        if (post.isLikedByCurrentUser) {
+            mPostViewModel!!.likePost(post.id!!)
+        } else {
+            mPostViewModel!!.dislikePost(post.id!!)
+        }
     }
 
     private fun showPostsDataView() {
