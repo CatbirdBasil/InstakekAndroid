@@ -33,7 +33,6 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
     private val channelDao: ChannelDao = database.channelDao()
     private val subscriptionDao: SubscriptionDao = database.subscriptionDao()
     private val commentDao: CommentDao = database.commentDao()
-    private val userDao: UserDao = database.userDao()
     private val likesDao: LikesDao = database.likesDao()
 
     private val postApi: PostRequests = ApiEndpoints.Post
