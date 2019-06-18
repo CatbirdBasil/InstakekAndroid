@@ -121,7 +121,7 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
 
     //TODO DELETE OLD LIKES
     private fun insertAllLikes(postId: Long, vararg likedUsers: User) {
-        likedUsers.forEach { likesDao.insert(Likes(postId, it.id!!)) }
+        likedUsers.forEach { likesDao.insert(Likes(it.id!!, postId)) }
     }
 
     private fun fetchContentsAndChannelForPosts(posts: List<Post>) {

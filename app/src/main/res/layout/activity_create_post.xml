@@ -112,7 +112,7 @@
 
 
     <ImageView
-        android:id="@+id/post_image"
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:src="@tools:sample/avatars"
@@ -126,7 +126,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/post_image"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="Enter a caption here ..."
         android:background="@android:color/transparent"
@@ -134,7 +134,18 @@
         />
 
     <Button
-        android:id="@+id/create_post"
+        android:id="@+id/buttonChoose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/caption_input"
+        app:layout_constraintEnd_toStartOf="@id/buttonUpload"
+        android:layout_margin="16dp"
+        android:text="Upload mem"
+        android:background="@drawable/btn_bg"
+        />
+
+    <Button
+        android:id="@+id/buttonUpload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/caption_input"
