@@ -7,8 +7,10 @@ import android.os.AsyncTask
 import android.util.Log
 import com.mobiledev.edu.instakek.data.database.AppDatabase
 import com.mobiledev.edu.instakek.data.database.dao.*
+import com.mobiledev.edu.instakek.data.database.entity.Likes
 import com.mobiledev.edu.instakek.data.database.entity.Post
 import com.mobiledev.edu.instakek.data.database.entity.Subscription
+import com.mobiledev.edu.instakek.data.database.entity.User
 import com.mobiledev.edu.instakek.data.network.requestApi.PostRequests
 import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
 import com.mobiledev.edu.instakek.data.repository.PostRepository
@@ -32,6 +34,7 @@ class PostRepositoryImpl(val context: Context) : PostRepository {
     private val subscriptionDao: SubscriptionDao = database.subscriptionDao()
     private val commentDao: CommentDao = database.commentDao()
     private val userDao: UserDao = database.userDao()
+    private val likesDao: LikesDao = database.likesDao()
 
     private val postApi: PostRequests = ApiEndpoints.Post
 
@@ -94,7 +97,7 @@ class PostRepositoryImpl(val context: Context) : PostRepository {
                     channelDao.insert(it.channel!!)
                     subscriptionDao.insertSubscription(
                             Subscription(it.channelId, CURRENT_USER_ID, true))
-                    //TODO add likes
+                    insertAllLikes(it.id!!, *it.likes!!.toTypedArray())
                     postDao.insert(it)
                     postContentDao.insertAll(*it.contents!!.toTypedArray())
                 }
@@ -102,12 +105,18 @@ class PostRepositoryImpl(val context: Context) : PostRepository {
         }
     }
 
+    //TODO DELETE OLD LIKES
+    private fun insertAllLikes(postId: Long, vararg likedUsers: User) {
+        likedUsers.forEach { likesDao.insert(Likes(postId, it.id!!)) }
+    }
+
     private fun fetchContentsAndChannelForPosts(posts: List<Post>) {
         AsyncTask.execute {
             posts.forEach {
                 it.contents = postContentDao.getByPostId(it.id!!)
                 it.channel = channelDao.getChannelByPostId(it.id!!)
-                //TODO ADD LIKES
+                it.likes = likesDao.getLikedUsersByPostId(it.id!!)
+                it.likesAmount = likesDao.countLikedUsersByPostId(it.id!!)
             }
         }
     }

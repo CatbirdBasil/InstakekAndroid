@@ -1,7 +1,7 @@
 package com.mobiledev.edu.instakek.data.database.entity
 
 import android.arch.persistence.room.*
-import java.sql.Date
+import java.util.*
 
 
 @Entity(

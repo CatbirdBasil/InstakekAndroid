@@ -47,7 +47,8 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
     override fun onBindViewHolder(postsAdapterViewHolder: PostsAdapterViewHolder, position: Int) {
         val postLikes = mPosts!![position]
 //        postsAdapterViewHolder.mLikesTextView.text = postLikes.text//.channel!!.channelName
-        postsAdapterViewHolder.mLikesTextView.text = postLikes.channel!!.channelName
+//        postsAdapterViewHolder.mLikesTextView.text = postLikes.channel!!.channelName
+        postsAdapterViewHolder.mLikesTextView.text = postLikes.likesAmount.toString() + " Keks"
     }
 
     override fun getItemCount(): Int {

@@ -1,7 +1,7 @@
 package com.mobiledev.edu.instakek.data.database
 
 import android.arch.persistence.room.TypeConverter
-import java.sql.Date
+import java.util.*
 
 class DateTypeConverter {
     @TypeConverter

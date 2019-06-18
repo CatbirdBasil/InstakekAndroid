@@ -12,13 +12,14 @@ import android.arch.persistence.room.ForeignKey
                         parentColumns = arrayOf("id"),
                         childColumns = arrayOf("post_id"),
                         onDelete = ForeignKey.NO_ACTION
-                ),
-                ForeignKey(
-                        entity = User::class,
-                        parentColumns = arrayOf("id"),
-                        childColumns = arrayOf("user_id"),
-                        onDelete = ForeignKey.NO_ACTION
                 )
+//                ,
+//                ForeignKey(
+//                        entity = User::class,
+//                        parentColumns = arrayOf("id"),
+//                        childColumns = arrayOf("user_id"),
+//                        onDelete = ForeignKey.NO_ACTION
+//                )
         ), primaryKeys = ["post_id", "user_id"]
 )
 class Likes (
