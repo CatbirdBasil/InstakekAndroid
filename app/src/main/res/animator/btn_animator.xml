@@ -4,12 +4,12 @@
         <objectAnimator
             android:propertyName="alpha"
             android:valueTo="1"
-            android:valueType="floatType"/>
+            android:valueType="floatType" />
     </item>
     <item android:state_enabled="false">
         <objectAnimator
             android:propertyName="alpha"
             android:valueTo="0.3"
-            android:valueType="floatType"/>
+            android:valueType="floatType" />
     </item>
 </selector>

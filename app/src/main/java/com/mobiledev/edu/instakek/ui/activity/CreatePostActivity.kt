@@ -5,12 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.provider.MediaStore
 import android.support.annotation.NonNull
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -36,7 +34,7 @@ class CreatePostActivity : AppCompatActivity() {
 
     private val Tag = "CreatePostActivity"
 
-    private var  buttonChoose: Button? = null;
+    private var buttonChoose: Button? = null;
     private var buttonUpload: Button? = null;
     private var backButton: ImageButton? = null;
 
@@ -45,7 +43,7 @@ class CreatePostActivity : AppCompatActivity() {
 
     private var filePath: Uri? = null;
 
-    private lateinit var url :String;
+    private lateinit var url: String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +58,9 @@ class CreatePostActivity : AppCompatActivity() {
 
 
         //attaching listener
-        buttonChoose!!.setOnClickListener{showFileChooser()}
-        buttonUpload!!.setOnClickListener{uploadFile()}
-        backButton!!.setOnClickListener{goBack()}
-
+        buttonChoose!!.setOnClickListener { showFileChooser() }
+        buttonUpload!!.setOnClickListener { uploadFile() }
+        backButton!!.setOnClickListener { goBack() }
 
 
     }
@@ -101,33 +98,30 @@ class CreatePostActivity : AppCompatActivity() {
     }
 
 
-    fun uploadFile(){
-        Log.d(Tag,"upload photo")
-        uploadFiles(filePath, FirebaseStorage.getInstance().reference,this,AuthUtils.CURRENT_USER_ID)
+    fun uploadFile() {
+        Log.d(Tag, "upload photo")
+        uploadFiles(filePath, FirebaseStorage.getInstance().reference, this, AuthUtils.CURRENT_USER_ID)
     }
 
 
-
-
-    fun uploadFiles(filePath: Uri?, storageReference: StorageReference, appContext: Context, userId:Long) {
+    fun uploadFiles(filePath: Uri?, storageReference: StorageReference, appContext: Context, userId: Long) {
         //if there is a file to upload
-        Log.d("TagActivity",filePath.toString())
+        Log.d("TagActivity", filePath.toString())
         if (filePath != null) {
-            Log.d("TagActivity","Photo")
+            Log.d("TagActivity", "Photo")
             //displaying a progress dialog while upload is going on
             val progressDialog = ProgressDialog(appContext)
             progressDialog.setTitle("Uploading")
             progressDialog.show()
 
-            val imageName:String
+            val imageName: String
             imageName = userId.toString().plus('_').plus(java.util.Calendar.getInstance().timeInMillis)
-
 
 
             val riversRef = storageReference.child("images/".plus(imageName).plus(".jpg"))
             riversRef.putFile(filePath)
                     .addOnSuccessListener(object : OnSuccessListener<UploadTask.TaskSnapshot> {
-                        override  fun onSuccess(taskSnapshot: UploadTask.TaskSnapshot) {
+                        override fun onSuccess(taskSnapshot: UploadTask.TaskSnapshot) {
 
                             progressDialog.dismiss()
 
@@ -144,11 +138,10 @@ class CreatePostActivity : AppCompatActivity() {
                         }
 
 
-
                         //TODO from here insert with  "gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg")
                     })
                     .addOnFailureListener(object : OnFailureListener {
-                        override  fun onFailure(@NonNull exception: Exception) {
+                        override fun onFailure(@NonNull exception: Exception) {
                             //if the upload is not successfull
                             //hiding the progress dialog
                             progressDialog.dismiss()

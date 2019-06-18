@@ -1,6 +1,7 @@
 package com.mobiledev.edu.instakek.data.network.utils
 
 import com.mobiledev.edu.instakek.data.network.requestApi.AuthRequests
+import com.mobiledev.edu.instakek.data.network.requestApi.ChannelRequests
 import com.mobiledev.edu.instakek.data.network.requestApi.PostRequests
 import com.mobiledev.edu.instakek.data.network.requestApi.UserRequests
 
@@ -20,6 +21,10 @@ object ApiEndpoints {
 
     val Post by lazy {
         retrofitClient.create(PostRequests::class.java)
+    }
+
+    val Channel by lazy {
+        retrofitClient.create(ChannelRequests::class.java)
     }
 
 }
