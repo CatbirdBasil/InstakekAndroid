@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.database.entity.Post
+import com.squareup.picasso.Picasso
 
 class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
                    private val mLikeClickHandler: LikeOnClickHandler)
@@ -31,12 +33,14 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
         val mChannelNameTextView: TextView
         val mDescriptionTextView: TextView
         val mLikeButton: Button
+        val imageView:ImageView
 
         init {
             mLikesTextView = view.findViewById(R.id.tv_post_likes) as TextView
             mChannelNameTextView = view.findViewById(R.id.username_text) as TextView
             mDescriptionTextView = view.findViewById(R.id.caption_text) as TextView
             mLikeButton = view.findViewById(R.id.like_image) as Button
+            imageView = view.findViewById(R.id.post_image)
 
             view.setOnClickListener(this)
 
@@ -99,7 +103,15 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
         }
         postsAdapterViewHolder.mDescriptionTextView.text = currentPost.text
 
-        changeButtonAppearance(postsAdapterViewHolder, currentPost)
+        changeButtonAppearence(postsAdapterViewHolder, currentPost)
+
+        if(currentPost.contents!=null) {
+            Picasso.get()
+                    .load(currentPost.contents!![0].contentLink)
+                    //.fit()
+                    .into(postsAdapterViewHolder.imageView)
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -131,6 +143,5 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
             }
 
         }
-
     }
 }

@@ -13,6 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/colorPepe"
         android:elevation="4dp"
+        android:paddingBottom="5dp"
         >
 
         <android.support.constraint.ConstraintLayout
@@ -23,6 +24,8 @@
             tools:layout_editor_absoluteY="5dp">
 
             <ImageButton
+
+                android:paddingTop="5dp"
                 android:background="@color/colorPepe"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -33,6 +36,7 @@
                 />
 
             <TextView
+                android:paddingTop="5dp"
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
@@ -56,6 +60,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolBar">
 
         <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="16dp"
             android:id="@+id/recyclerview_posts"
             android:layout_width="match_parent"
             android:layout_height="0dp"

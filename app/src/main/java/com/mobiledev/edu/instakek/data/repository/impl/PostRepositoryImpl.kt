@@ -204,6 +204,25 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
         }
     }
 
+//    private fun insertPost(post:Post){
+//        AsyncTask.execute {
+//            database.runInTransaction(Runnable {
+//                    var channel = channelDao.getById(AuthUtils.CURRENT_USER_ID)
+//                    var Id = channel.id
+//                    Log.d(TAG, "Curr post: ${post.text}")
+////                    Channel(it.channelId, it.channel!!.)
+//                    channelDao.insert(it.channel!!)
+//                    postDao.insert(it)
+//                    subscriptionDao.insertSubscription(
+//                            Subscription(it.channelId, CURRENT_USER_ID, true))
+//                    synchroniseLikesWithRemoteDb(it.id!!, *it.likes!!.toTypedArray())
+//                    postContentDao.insertAll(*it.contents!!.toTypedArray())
+//
+//            })
+//        }
+//
+//    }
+
     override fun getPostWithComments(postId: Long): LiveData<Post> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

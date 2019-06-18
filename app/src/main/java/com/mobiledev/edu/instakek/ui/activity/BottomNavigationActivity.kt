@@ -31,8 +31,8 @@ abstract class BottomNavigationActivity(val navNumber: Int) : AppCompatActivity(
                     }
                 }
             if (nextActivity != null) {
-                val intent = Intent(this, nextActivity)
-                intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
+                val intent = Intent(this, nextActivity).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+               // intent.flags = Intent.FLAG_ACTIVITY_NO_ANIMATION
                 startActivity(intent)
                 overridePendingTransition(0, 0)
                 true
