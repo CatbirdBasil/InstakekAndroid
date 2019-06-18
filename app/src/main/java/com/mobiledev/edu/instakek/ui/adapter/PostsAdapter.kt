@@ -4,11 +4,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.database.entity.Post
 
-class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
+class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
+                   private val mLikeClickHandler: LikeOnClickHandler)
     : RecyclerView.Adapter<PostsAdapter.PostsAdapterViewHolder>() {
 
     private var mPosts: List<Post>? = null
@@ -17,17 +19,31 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
         fun onClick(likes: String)
     }
 
+    interface LikeOnClickHandler {
+        fun onLikeClick(post: Post)
+    }
+
     inner class PostsAdapterViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val mLikesTextView: TextView
         val mChannelNameTextView: TextView
         val mDescriptionTextView: TextView
+        val mLikeButton: Button
 
         init {
             mLikesTextView = view.findViewById(R.id.tv_post_likes) as TextView
             mChannelNameTextView = view.findViewById(R.id.username_text) as TextView
             mDescriptionTextView = view.findViewById(R.id.caption_text) as TextView
+            mLikeButton = view.findViewById(R.id.like_image) as Button
 
             view.setOnClickListener(this)
+
+            mLikeButton.setOnClickListener {
+                val adapterPosition = adapterPosition
+                val currentPost = mPosts!![adapterPosition]
+                currentPost.isLikedByCurrentUser = !currentPost.isLikedByCurrentUser
+                changeButtonAppearence(this, currentPost)
+                mLikeClickHandler.onLikeClick(currentPost)
+            }
         }
 
         override fun onClick(v: View) {
@@ -59,9 +75,12 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
         while (currentPost.likesAmount == null) {
             postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_likes_loading)
         }
-        postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_likes, currentPost.likesAmount.toString())
+        postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context
+                .applicationContext.getString(R.string.post_likes, currentPost.likesAmount.toString())
 
         postsAdapterViewHolder.mDescriptionTextView.text = currentPost.text
+
+        changeButtonAppearence(postsAdapterViewHolder, currentPost)
     }
 
     override fun getItemCount(): Int {
@@ -71,5 +90,17 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
     fun setPosts(posts: List<Post>) {
         mPosts = posts
         notifyDataSetChanged()
+    }
+
+    fun changeButtonAppearence(postsAdapterViewHolder: PostsAdapterViewHolder, currentPost: Post) {
+        if (currentPost.isLikedByCurrentUser) {
+            postsAdapterViewHolder
+                    .mLikeButton.background = postsAdapterViewHolder.itemView.context
+                    .applicationContext.getDrawable(R.drawable.like_button_active)
+        } else {
+            postsAdapterViewHolder
+                    .mLikeButton.background = postsAdapterViewHolder.itemView.context
+                    .applicationContext.getDrawable(R.drawable.like_button)
+        }
     }
 }

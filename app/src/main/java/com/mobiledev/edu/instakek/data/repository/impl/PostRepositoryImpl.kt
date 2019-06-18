@@ -131,6 +131,8 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
                 it.channel = channelDao.getChannelByPostId(it.id!!)
                 it.likes = likesDao.getLikedUsersByPostId(it.id!!)
                 it.likesAmount = likesDao.countLikedUsersByPostId(it.id!!)
+                it.isLikedByCurrentUser = likesDao
+                        .amountOfLikesFromUserToPost(CURRENT_USER_ID, it.id!!) > 0
             }
         }
     }

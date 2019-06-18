@@ -46,4 +46,7 @@ class Post (
 
     @Ignore
     var likesAmount: Long? = null
+
+    @Ignore
+    var isLikedByCurrentUser: Boolean = false
 }
