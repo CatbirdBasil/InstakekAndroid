@@ -22,7 +22,7 @@ import java.util.*
         )
 )
 data class Comment(
-        @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
         var id: Long?,
         @ColumnInfo(name = "post_id")
         var postId: Long,

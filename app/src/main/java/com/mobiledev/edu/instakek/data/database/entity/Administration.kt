@@ -29,12 +29,12 @@ import android.arch.persistence.room.PrimaryKey
     )
 )
 class Administration(
-    @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
     var id: Long?,
-    @ColumnInfo(name = "channel_id")
+        @ColumnInfo(name = "channel_id")
     var channelId: Long,
-    @ColumnInfo(name = "user_id")
+        @ColumnInfo(name = "user_id")
     var userId: Long,
-    @ColumnInfo(name = "role_id")
+        @ColumnInfo(name = "role_id")
     var roleId: Long
 ) {}

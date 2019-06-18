@@ -16,6 +16,9 @@ interface LikesDao {
     @Query("SELECT COUNT(*) FROM likes WHERE likes.post_id = :postId AND likes.user_id = :userId")
     fun amountOfLikesFromUserToPost(userId: Long, postId: Long): Long
 
+    @Query("DELETE FROM likes WHERE likes.post_id = :postId")
+    fun clearPostLikes(postId: Long)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     @JvmSuppressWildcards
     fun insert(like: Likes): Long

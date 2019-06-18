@@ -18,11 +18,11 @@ import android.arch.persistence.room.PrimaryKey
         )
 )
 class PostContent (
-    @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
     var id: Long?,
-    @ColumnInfo(name = "post_id")
+        @ColumnInfo(name = "post_id")
     var postId: Long,
-    @ColumnInfo(name = "content_link")
+        @ColumnInfo(name = "content_link")
     var contentLink: String
 )
 {}

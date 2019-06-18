@@ -24,16 +24,16 @@ interface PostRequests {
     fun insert(@Body post: Post): Call<Post>
 
     @PUT(ENDPOINT_URL)
-    fun update(@Body post: Post): Call<Unit>
+    fun update(@Body post: Post): Call<Void>
 
     @DELETE("$ENDPOINT_URL/{id}")
-    fun delete(@Path("id") id: Long): Call<Unit>
+    fun delete(@Path("id") id: Long): Call<Void>
 
     @POST("$ENDPOINT_URL/like/{id}")
-    fun likePost(@Path("id") id: Long): Call<Unit>
+    fun likePost(@Path("id") id: Long): Call<Void>
 
     @DELETE("$ENDPOINT_URL/like/{id}")
-    fun unlikePost(@Path("id") id: Long): Call<Unit>
+    fun dislikePost(@Path("id") id: Long): Call<Void>
 
 //    fun getPostsFromSubscribedChannels(@Path("id") id: Int): Call<List<Post>>
 

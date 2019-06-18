@@ -107,26 +107,28 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
         AsyncTask.execute {
             database.runInTransaction(Runnable {
                 posts.forEach {
-                    Log.d(TAG, "Curr post: $it")
+                    Log.d(TAG, "Curr post: ${it.id}, ${it.text}")
+//                    Channel(it.channelId, it.channel!!.)
                     channelDao.insert(it.channel!!)
+                    postDao.insert(it)
                     subscriptionDao.insertSubscription(
                             Subscription(it.channelId, CURRENT_USER_ID, true))
-                    insertAllLikes(it.id!!, *it.likes!!.toTypedArray())
-                    postDao.insert(it)
+                    synchroniseLikesWithRemoteDb(it.id!!, *it.likes!!.toTypedArray())
                     postContentDao.insertAll(*it.contents!!.toTypedArray())
                 }
             })
         }
     }
 
-    //TODO DELETE OLD LIKES
-    private fun insertAllLikes(postId: Long, vararg likedUsers: User) {
-        likedUsers.forEach { likesDao.insert(Likes(postId, it.id!!)) }
+    private fun synchroniseLikesWithRemoteDb(postId: Long, vararg likedUsers: User) {
+        likesDao.clearPostLikes(postId)
+        likedUsers.forEach { likesDao.insert(Likes(it.id!!, postId)) }
     }
 
     private fun fetchContentsAndChannelForPosts(posts: List<Post>) {
         AsyncTask.execute {
             posts.forEach {
+                Log.d(TAG, "Curr DB post: ${it.id}, ${it.text}")
                 it.contents = postContentDao.getByPostId(it.id!!)
                 it.channel = channelDao.getChannelByPostId(it.id!!)
                 it.likes = likesDao.getLikedUsersByPostId(it.id!!)
@@ -134,6 +136,62 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
                 it.isLikedByCurrentUser = likesDao
                         .amountOfLikesFromUserToPost(CURRENT_USER_ID, it.id!!) > 0
             }
+        }
+    }
+
+    override fun likePost(postId: Long) {
+        Log.d(TAG, "Attempting to like post(id = $postId) by user(id = $CURRENT_USER_ID")
+
+        val postCallback = postApi.likePost(postId)
+
+        postCallback.enqueue(object : Callback<Void> {
+
+            override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
+                if (response!!.isSuccessful) {
+                    likePostAsync(postId)
+                } else {
+                    Log.d(TAG, "Error occurred while liking post " +
+                            "Error code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>?, t: Throwable?) {
+                Log.d(TAG, "Error occurred while liking post", t)
+            }
+        })
+    }
+
+    private fun likePostAsync(postId: Long) {
+        AsyncTask.execute {
+            likesDao.insert(Likes(CURRENT_USER_ID, postId))
+        }
+    }
+
+    override fun dislikePost(postId: Long) {
+        Log.d(TAG, "Attempting to dislike post(id = $postId) by user(id = $CURRENT_USER_ID")
+
+        val postCallback = postApi.dislikePost(postId)
+
+        postCallback.enqueue(object : Callback<Void> {
+
+            override fun onResponse(call: Call<Void>?, response: Response<Void>?) {
+                if (response!!.isSuccessful) {
+                    dislikePostAsync(postId)
+                } else {
+                    Log.d(TAG, "Error occurred while disliking post " +
+                            "Error code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Void>?, t: Throwable?) {
+                Log.d(TAG, "Error occurred while disliking post", t)
+            }
+        })
+    }
+
+    private fun dislikePostAsync(postId: Long) {
+        AsyncTask.execute {
+            likesDao.delete(Likes(CURRENT_USER_ID, postId))
         }
     }
 

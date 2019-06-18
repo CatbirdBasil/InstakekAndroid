@@ -9,8 +9,8 @@ import android.arch.persistence.room.PrimaryKey
         tableName = "user_tag_type"
 )
 class UserTagType (
-    @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
     var id: Long?,
-    @ColumnInfo(name = "tag_type_name")
+        @ColumnInfo(name = "tag_type_name")
     var tagTypeName: String
 )

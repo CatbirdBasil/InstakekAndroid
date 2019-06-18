@@ -21,8 +21,8 @@ interface UserRequests {
     fun insert(@Body user: User): Call<User>
 
     @PUT(ENDPOINT_URL)
-    fun update(@Body user: User): Call<User>
+    fun update(@Body user: User): Call<Void>
 
     @DELETE("$ENDPOINT_URL/{id}")
-    fun delete(@Path("id") id: Long): Call<User>
+    fun delete(@Path("id") id: Long): Call<Void>
 }

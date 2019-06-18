@@ -6,8 +6,8 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity
 class AdministrationRole(
-    @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
     var id: Long?,
-    @ColumnInfo(name = "role_name")
+        @ColumnInfo(name = "role_name")
     var roleName: String
 )

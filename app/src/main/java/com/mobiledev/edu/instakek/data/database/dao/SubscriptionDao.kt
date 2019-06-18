@@ -15,7 +15,7 @@ interface SubscriptionDao {
     fun deleteSubscription(s: Subscription)
 
     @Query("SELECT * FROM subscription WHERE channel_id = :id")
-    fun getSubscriptionByChanellId(id: Int): List<Subscription>
+    fun getSubscriptionByChannelId(id: Int): List<Subscription>
 
     @Query("SELECT * FROM subscription WHERE user_id = :id")
     fun getSubscriptionByUserId(id: Int): List<Subscription>

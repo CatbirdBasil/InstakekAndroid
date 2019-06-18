@@ -22,10 +22,10 @@ import java.util.*
         )
 )
 class Post (
-        @PrimaryKey(autoGenerate = true)
-    var id: Long?,
+        @PrimaryKey(autoGenerate = false)
+        var id: Long?,
         @ColumnInfo(name = "channel_id")
-    var channelId: Long,
+        var channelId: Long,
         @ColumnInfo(name = "creation_time")
         var creationDate: Date,
         @ColumnInfo(name = "base_post_id")

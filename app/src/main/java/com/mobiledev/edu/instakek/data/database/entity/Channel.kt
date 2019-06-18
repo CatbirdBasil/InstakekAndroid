@@ -24,17 +24,17 @@ import java.util.*
     )*///TODO RUN FK
 )
 class Channel(
-    @PrimaryKey(autoGenerate = true)
+        @PrimaryKey(autoGenerate = false)
     var id: Long?,
-    @ColumnInfo(name = "creator_id")
+        @ColumnInfo(name = "creator_id")
     var creatorId: Long,
-    @ColumnInfo(name = "channel_type_id")
-    var channelTyre: Long,
-    @ColumnInfo(name = "channel_name")
+        @ColumnInfo(name = "channel_type_id")
+        var channelType: Long,
+        @ColumnInfo(name = "channel_name")
     var channelName: String,
-    @ColumnInfo(name = "creation_date")
+        @ColumnInfo(name = "creation_date")
     var creationDate: Date,
-    @ColumnInfo(name = "img_src")
+        @ColumnInfo(name = "img_src")
     var imgSrc: String?
 
 ) {

@@ -83,7 +83,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
                         while (mPostViewModel!!.isFetchingData()) {
                             SystemClock.sleep(10)
                         }
-                        swipe_refresh_home.isRefreshing = false
+                        runOnUiThread { swipe_refresh_home.isRefreshing = false }
                         Log.d(TAG, "Finished fetching posts from api")
                     }
                 }
@@ -138,11 +138,9 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
         val context = this
 
         if (post.isLikedByCurrentUser) {
-            Toast.makeText(context, "Like", Toast.LENGTH_SHORT)
-                    .show()
+            mPostViewModel!!.likePost(post.id!!)
         } else {
-            Toast.makeText(context, "Dislike", Toast.LENGTH_SHORT)
-                    .show()
+            mPostViewModel!!.dislikePost(post.id!!)
         }
     }
 
