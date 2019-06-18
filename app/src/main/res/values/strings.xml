@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Instakek</string>
 
+    <string name="no_internet_error">No internet connection available!</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
@@ -19,5 +21,9 @@
     <string name="name">First name and second name</string>
     <string name="username">Username</string>
     <string name="registration">Registration</string>
-    <string name="reposted_fom">Reposted fom :</string>
+    <string name="reposted_fom">Reposted from :</string>
+
+    <string name="post_likes">%1$s keks given</string>
+    <string name="post_likes_loading">Loading your keks...</string>
+    <string name="post_channel_name_loading">Loading channel name...</string>
 </resources>

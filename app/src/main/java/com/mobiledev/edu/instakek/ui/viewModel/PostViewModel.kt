@@ -15,9 +15,8 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         postRepository = PostRepositoryImpl(application)
     }
 
-    fun invalidateData() {
-        postRepository.invalidateData()
-    }
+    fun invalidateData() = postRepository.invalidateData()
+    fun isFetchingData() = postRepository.isCurrentlyFetchingData()
 
     fun getSubscribedPosts(): LiveData<List<Post>> {
         return postRepository.getPostsFromSubscribedChannels()

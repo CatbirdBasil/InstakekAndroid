@@ -13,6 +13,8 @@ import com.mobiledev.edu.instakek.data.database.entity.Subscription
 import com.mobiledev.edu.instakek.data.database.entity.User
 import com.mobiledev.edu.instakek.data.network.requestApi.PostRequests
 import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
+import com.mobiledev.edu.instakek.data.network.utils.NetworkUtils
+import com.mobiledev.edu.instakek.data.repository.FetchingRepository
 import com.mobiledev.edu.instakek.data.repository.PostRepository
 import com.mobiledev.edu.instakek.utils.AuthUtils
 import retrofit2.Call
@@ -20,7 +22,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class PostRepositoryImpl(val context: Context) : PostRepository {
+class PostRepositoryImpl(val context: Context) : PostRepository, FetchingRepository() {
 
     companion object {
         private val TAG = PostRepositoryImpl::class.qualifiedName
@@ -40,12 +42,24 @@ class PostRepositoryImpl(val context: Context) : PostRepository {
 
     private val CURRENT_USER_ID = AuthUtils.CURRENT_USER_ID
 
-    private var isRecent: Boolean = false
-    private var isFetchingData: Boolean = false
-
-    override fun invalidateData() {
-        isRecent = false
-    }
+//    private var isRecent: Boolean = false
+//    private var isFetchingData: Boolean = false
+//    private var isFetchingDataLiveData: MutableLiveData<Boolean> = MutableLiveData()
+//
+//    init {
+//        isFetchingDataLiveData.value = false
+//    }
+//
+//    override fun invalidateData() {
+//        isRecent = false
+//    }
+//
+//    override fun isFetchingData(): LiveData<Boolean> {
+//        if (isFetchingDataLiveData.value != isFetchingData) {
+//            isFetchingDataLiveData.value = isFetchingData
+//        }
+//        return isFetchingDataLiveData
+//    }
 
     override fun getAll(): LiveData<List<Post>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -54,7 +68,7 @@ class PostRepositoryImpl(val context: Context) : PostRepository {
     override fun getPostsFromSubscribedChannels(): LiveData<List<Post>> {
         Log.d(TAG, "Attempting to fetch post form channels that current user is subscribed to")
 
-        if (!isRecent && !isFetchingData) {
+        if (!isRecent && !isFetchingData && NetworkUtils.isOnline(context.applicationContext)) {
             Log.d(TAG, "Attempting to fetch post form channels" +
                     " that current user is subscribed to from api")
 
