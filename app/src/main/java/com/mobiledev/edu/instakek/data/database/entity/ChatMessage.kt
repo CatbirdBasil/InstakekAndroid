@@ -26,7 +26,7 @@ import java.sql.Date
 )
 class ChatMessage(
         @PrimaryKey(autoGenerate = false)
-    var id: Long?,
+        var id: Long,
         @ColumnInfo(name = "sender_id")
     var senderId: Long,
         @ColumnInfo(name = "reciever_id")

@@ -14,7 +14,7 @@ interface PostDao : GenericDao<Post> {
     @Query("SELECT * FROM post WHERE id = :id")
     override fun getById(id: Long): LiveData<Post>
 
-    @Query("SELECT * FROM post " +
+    @Query("SELECT post.id, post.channel_id, post.creation_time, post.base_post_id, post.text FROM post " +
             "JOIN channel ON post.channel_id = channel.id " +
             "JOIN subscription ON channel.id = subscription.channel_id " +
             "WHERE subscription.user_id = :id " +

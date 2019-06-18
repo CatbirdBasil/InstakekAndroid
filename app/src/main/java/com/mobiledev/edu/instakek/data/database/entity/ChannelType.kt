@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(tableName = "channel_type")
 class ChannelType(
         @PrimaryKey(autoGenerate = false)
-    var id: Long?,
+        var id: Long,
         @ColumnInfo(name = "type_name")
     var type: String
 ) {

@@ -108,9 +108,12 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
             database.runInTransaction(Runnable {
                 posts.forEach {
                     Log.d(TAG, "Curr post: ${it.id}, ${it.text}")
-//                    Channel(it.channelId, it.channel!!.)
                     channelDao.insert(it.channel!!)
-                    postDao.insert(it)
+//                    channelDao.insert(Channel(it.channelId, it.channel!!.creatorId,
+//                            it.channel!!.channelType, it.channel!!.channelName,
+//                            it.channel!!.creationDate, it.channel!!.imgSrc))
+                    val check = postDao.insert(it)
+                    Log.d(TAG, "OUR MAGIC ID: $check")
                     subscriptionDao.insertSubscription(
                             Subscription(it.channelId, CURRENT_USER_ID, true))
                     synchroniseLikesWithRemoteDb(it.id!!, *it.likes!!.toTypedArray())
@@ -126,15 +129,21 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
     }
 
     private fun fetchContentsAndChannelForPosts(posts: List<Post>) {
+        Log.d(TAG, "WE CAME TO FETCH METHOD")
         AsyncTask.execute {
             posts.forEach {
                 Log.d(TAG, "Curr DB post: ${it.id}, ${it.text}")
-                it.contents = postContentDao.getByPostId(it.id!!)
+                it.contents = postContentDao.getByPostId(it.id)
+                Log.d(TAG, "CURR CONTENT: ${it.contents!![0].contentLink}")
                 it.channel = channelDao.getChannelByPostId(it.id!!)
+                Log.d(TAG, "CURR CHANNEL: ${it.channel!!.channelName}")
                 it.likes = likesDao.getLikedUsersByPostId(it.id!!)
+                Log.d(TAG, "CURR LIKES: ${it.likes}")
                 it.likesAmount = likesDao.countLikedUsersByPostId(it.id!!)
+                Log.d(TAG, "LIKES AMOUNT: ${it.likesAmount}")
                 it.isLikedByCurrentUser = likesDao
                         .amountOfLikesFromUserToPost(CURRENT_USER_ID, it.id!!) > 0
+                Log.d(TAG, "IS LIKED: ${it.isLikedByCurrentUser}")
             }
         }
     }

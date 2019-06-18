@@ -9,7 +9,7 @@ import java.util.*
 @Entity(tableName = "USER")
 class User(
         @PrimaryKey(autoGenerate = false)
-        var id: Long?,
+        var id: Long,
 
         @ColumnInfo(name = "username")
         var username: String,

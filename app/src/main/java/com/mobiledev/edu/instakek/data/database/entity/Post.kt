@@ -23,7 +23,7 @@ import java.util.*
 )
 class Post (
         @PrimaryKey(autoGenerate = false)
-        var id: Long?,
+        var id: Long,
         @ColumnInfo(name = "channel_id")
         var channelId: Long,
         @ColumnInfo(name = "creation_time")
