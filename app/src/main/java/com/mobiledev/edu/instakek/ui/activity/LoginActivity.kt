@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import com.auth0.android.jwt.JWT
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.network.request.LoginRequest
 import com.mobiledev.edu.instakek.data.network.requestApi.AuthRequests
@@ -23,6 +24,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class LoginActivity : AppCompatActivity() {
 
     companion object {
@@ -30,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private var mAuthApi: AuthRequests? = null
+    //    private var mUserRepository: UserRepository? = null
     private var mLoginCallback: Call<LoginResponse>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,16 +49,31 @@ class LoginActivity : AppCompatActivity() {
 
         email_sign_in_button.setOnClickListener { attemptLogin() }
         mAuthApi = ApiEndpoints.Auth
+//        mUserRepository = UserRepositoryImpl(getContext())
 
-        AuthUtils.initJwtToken(this)
+        AuthUtils.clearUserData(this)
+        AuthUtils.initUserData(this)
 
         //TODO enable auth
-        if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)) {
+        if (!AuthUtils.DEFAULT_JWT_TOKEN.equals(AuthUtils.TOKEN)
+                && !AuthUtils.DEFAULT_USER_ID.equals(AuthUtils.CURRENT_USER_ID)) {
+//            mUserRepository!!.getById(AuthUtils.CURRENT_USER_ID).observe(this, Observer<User> { user ->
+//                Log.d(TAG, "User: $user")
+//                if (user != null) {
+//                    processToHomeActivity()
+//                }
+//            })
             processToHomeActivity()
         }
 
         create_acc.setOnClickListener { getToRegister() }
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//
+//        mUserRepository!!.invalidateData()
+//    }
 
     private fun attemptLogin() {
         if (mLoginCallback != null) {
@@ -115,11 +133,21 @@ class LoginActivity : AppCompatActivity() {
                     if (response!!.isSuccessful) {
                         val token = response.body()
                         AuthUtils.saveJwtToken(getContext(), token.accessToken)
+                        val jwt = JWT(token.accessToken)
+                        AuthUtils.saveCurrentUserId(getContext(), jwt.subject!!.toLong())
                         processToHomeActivity()
+
+//                        mUserRepository!!.getById(AuthUtils.CURRENT_USER_ID).observe(getContext(), Observer<User> { user ->
+//                            Log.d(TAG, "User: $user")
+//                            if (user != null) {
+//                                processToHomeActivity()
+//                            }
+//                        })
                     } else {
                         Log.d(TAG, "Error occurred while login. Error code: ${response.code()}")
                         password.error = getString(R.string.error_incorrect_password)
                         password.requestFocus()
+                        mLoginCallback = null
                     }
 
                     showProgress(false)
@@ -128,6 +156,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<LoginResponse>?, t: Throwable?) {
                     Log.d(TAG, "Error occurred while login", t)
                     showProgress(false)
+                    mLoginCallback = null
                 }
             })
 
@@ -187,9 +216,7 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-
-    private fun getToRegister()
-    {
+    private fun getToRegister() {
         var intent: Intent = Intent(this, RegisterActivity::class.java)
 
         startActivity(intent)

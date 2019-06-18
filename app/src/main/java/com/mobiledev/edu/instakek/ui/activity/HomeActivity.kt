@@ -8,28 +8,25 @@ import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Toast
 import com.mobiledev.edu.instakek.R
-import com.mobiledev.edu.instakek.data.database.entity.User
+import com.mobiledev.edu.instakek.data.database.entity.Post
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
-import com.mobiledev.edu.instakek.ui.viewModel.UserViewModel
+import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
 import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
 
 class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler {
 
-    private val TAG = HomeActivity::class.qualifiedName
-
-    /*
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-    }*/
+    companion object {
+        private val TAG = HomeActivity::class.qualifiedName
+    }
 
     private var mRecyclerView: RecyclerView? = null
     private var mPostsAdapter: PostsAdapter? = null
-    private var mUserViewModel: UserViewModel? = null;
+    private var mPostViewModel: PostViewModel? = null;
+//    private var mUserViewModel: UserViewModel? = null;
+
 
 //    private var mErrorMessageDisplay: TextView? = null
-
 //    private var mLoadingIndicator: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,18 +50,29 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
 
         mRecyclerView!!.adapter = mPostsAdapter
 
-        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
+        mPostViewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
+//        mUserViewModel = ViewModelProviders.of(this).get(UserViewModel::class.java)
 
-        if (mUserViewModel != null) {
-            mUserViewModel!!.getUsers().observe(this, Observer<List<User>> {users ->
+        if (mPostViewModel != null) {
+            mPostViewModel!!.getSubscribedPosts().observe(this, Observer<List<Post>> { posts ->
 
-                Log.d(TAG, "Users: " + users)
-
-                var list: ArrayList<String> = ArrayList()
-                users!!.forEach { list.add(it.username) }
-                mPostsAdapter!!.setPosts(list)
+                Log.d(TAG, "Posts: " + posts)
+                if (posts != null) {
+                    mPostsAdapter!!.setPosts(posts)
+                }
             })
         }
+
+        //                if (mUserViewModel != null) {
+//            mUserViewModel!!.getUsers().observe(this, Observer<List<User>> {users ->
+//
+//                Log.d(TAG, "Users: " + users)
+//
+//                var list: ArrayList<String> = ArrayList()
+//                users!!.forEach { list.add(it.username) }
+//                mPostsAdapter!!.setPosts(list)
+//            })
+//        }
 
 //        mLoadingIndicator = findViewById(R.id.pb_loading_indicator) as ProgressBar
 
@@ -74,9 +82,13 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
     override fun onResume() {
         super.onResume()
 
-        if (mUserViewModel != null) {
-            mUserViewModel!!.invalidateDate()
+        if (mPostViewModel != null) {
+            mPostViewModel!!.invalidateData()
         }
+
+//        if (mUserViewModel != null) {
+//            mUserViewModel!!.invalidateData()
+//        }
     }
 
     private fun loadPostsData() {

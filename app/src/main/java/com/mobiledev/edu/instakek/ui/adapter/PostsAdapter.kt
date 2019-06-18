@@ -6,16 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.mobiledev.edu.instakek.R
+import com.mobiledev.edu.instakek.data.database.entity.Post
 
 class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
     : RecyclerView.Adapter<PostsAdapter.PostsAdapterViewHolder>() {
 
-    init {
-        var array = listOf("1", "2", "3")
-        setPosts(array)
-    }
-
-    private var mPosts: List<String>? = null
+    private var mPosts: List<Post>? = null
 
     interface PostsAdapterOnClickHandler {
         fun onClick(likes: String)
@@ -33,7 +29,7 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
         override fun onClick(v: View) {
             val adapterPosition = adapterPosition
             val likes = mPosts!![adapterPosition]
-            mClickHandler.onClick(likes)
+            mClickHandler.onClick(likes.channel!!.channelName)
         }
     }
 
@@ -50,14 +46,15 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler)
 
     override fun onBindViewHolder(postsAdapterViewHolder: PostsAdapterViewHolder, position: Int) {
         val postLikes = mPosts!![position]
-        postsAdapterViewHolder.mLikesTextView.text = postLikes
+//        postsAdapterViewHolder.mLikesTextView.text = postLikes.text//.channel!!.channelName
+        postsAdapterViewHolder.mLikesTextView.text = postLikes.channel!!.channelName
     }
 
     override fun getItemCount(): Int {
         return if (null == mPosts) 0 else mPosts!!.size
     }
 
-    fun setPosts(posts: List<String>) {
+    fun setPosts(posts: List<Post>) {
         mPosts = posts
         notifyDataSetChanged()
     }

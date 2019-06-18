@@ -5,18 +5,24 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Query
 import com.mobiledev.edu.instakek.data.database.entity.User
 
-
 @Dao
 interface UserDao : GenericDao<User> {
 
     @Query("SELECT * FROM USER")
     override fun getAll(): LiveData<List<User>>
 
-    @Query("SELECT * FROM USER WHERE id == :id")
+    @Query("SELECT * FROM USER WHERE id = :id")
     override fun getById(id: Long): LiveData<User>
 
-    @Query("SELECT * FROM USER WHERE name == :name")
+    @Query("SELECT * FROM USER WHERE name = :name")
     fun getUsersByName(name: String): LiveData<List<User>>
+
+    @Query("SELECT * FROM USER JOIN likes ON USER.id = likes.user_id WHERE likes.post_id = :id")
+    fun getUsersByLikedPostId(id: Long): LiveData<List<User>>
+
+    @Query("SELECT * FROM USER JOIN comment ON USER.id = comment.user_id WHERE comment.id = :id")
+    fun getUserByCommentId(id: Long): LiveData<User>
+
 
     //    @Insert(onConflict = OnConflictStrategy.REPLACE)
 //    fun insertUser(user: User)
@@ -31,7 +37,7 @@ interface UserDao : GenericDao<User> {
     fun getUsers(): LiveData<List<User>>
 
     @Query("SELECT * FROM USER WHERE id == :id")
-    fun getUserById(id: Int): LiveData<User>
+    fun getUserById(id: Long): LiveData<User>
 
     //----------------------
     @Query("SELECT * FROM USER LIMIT :limit OFFSET :offset")
