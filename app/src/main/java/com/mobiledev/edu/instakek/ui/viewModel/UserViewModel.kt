@@ -15,7 +15,7 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         userRepository = UserRepositoryImpl(application)
     }
 
-    fun invalidateDate() {
+    fun invalidateData() {
         userRepository.invalidateData()
     }
 

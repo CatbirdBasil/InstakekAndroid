@@ -15,7 +15,7 @@ interface UserRequests {
     fun getAll(): Call<List<User>>
 
     @GET("$ENDPOINT_URL/{id}")
-    fun getById(@Path("id") id: Int): Call<User>
+    fun getById(@Path("id") id: Long): Call<User>
 
     @POST(ENDPOINT_URL)
     fun insert(@Body user: User): Call<User>
@@ -24,5 +24,5 @@ interface UserRequests {
     fun update(@Body user: User): Call<User>
 
     @DELETE("$ENDPOINT_URL/{id}")
-    fun delete(@Path("id") id: Int): Call<User>
+    fun delete(@Path("id") id: Long): Call<User>
 }

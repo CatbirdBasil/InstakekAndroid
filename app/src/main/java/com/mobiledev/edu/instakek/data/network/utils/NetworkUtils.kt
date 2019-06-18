@@ -1,5 +1,6 @@
 package com.mobiledev.edu.instakek.data.network.utils
 
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -12,7 +13,8 @@ object NetworkUtils {
 
     var retrofitClient: Retrofit = Retrofit.Builder()
             .baseUrl(API_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory
+                    .create(GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.sssZZ").create()))
             .client(OkHttpClient()
                     .newBuilder()
                     .authenticator(TokenAuthenticator())

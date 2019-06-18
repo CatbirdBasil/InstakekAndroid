@@ -66,8 +66,38 @@ class UserRepositoryImpl(context: Context) : UserRepository {
         }
     }
 
-    override fun getById(id: Int): LiveData<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private fun insertAsync(user: User) {
+        AsyncTask.execute {
+            userDao.insert(user)
+        }
+    }
+
+    override fun getById(id: Long): LiveData<User> {
+        Log.d(TAG, "Attempting to fetch user(id = $id)")
+
+        if (!isRecent && !isFetchingData) {
+
+            isFetchingData = true
+            userApi.getById(id).enqueue(object : Callback<User> {
+
+                override fun onResponse(call: Call<User>?, response: Response<User>?) {
+                    if (response!!.isSuccessful) {
+                        insertAsync(response.body())
+                        isRecent = true
+                    } else {
+                        Log.d(UserRepositoryImpl.TAG, "Error occurred while fetching user. Error code: ${response.code()}")
+                    }
+                    isFetchingData = false
+                }
+
+                override fun onFailure(call: Call<User>?, t: Throwable?) {
+                    Log.d(UserRepositoryImpl.TAG, "Error occurred while fetching user", t)
+                    isFetchingData = false
+                }
+            })
+        }
+
+        return userDao.getUserById(id)
     }
 
     override fun insert(user: User) {
@@ -78,7 +108,7 @@ class UserRepositoryImpl(context: Context) : UserRepository {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(id: Int) {
+    override fun delete(id: Long) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -3,9 +3,6 @@ package com.mobiledev.edu.instakek.data.database.entity
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.PrimaryKey
-import java.sql.Date
-
 
 
 @Entity(
@@ -29,13 +26,13 @@ import java.sql.Date
                         childColumns = arrayOf("tag_id"),
                         onDelete = ForeignKey.NO_ACTION
                 )
-        )
+        ), primaryKeys = ["post_id", "tag_id"]
 )
 class PostTag (
-        @PrimaryKey(autoGenerate = false)
+//        @PrimaryKey(autoGenerate = false)
         @ColumnInfo(name = "post_id")
-        var postId: Long?,
-        @PrimaryKey(autoGenerate = false)
+        var postId: Long,
+//        @PrimaryKey(autoGenerate = false)
         @ColumnInfo(name = "tag_id")
         var tagId: Long,
         @ColumnInfo(name = "user_id")

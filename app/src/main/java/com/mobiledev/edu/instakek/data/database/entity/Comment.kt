@@ -1,10 +1,7 @@
 package com.mobiledev.edu.instakek.data.database.entity
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.PrimaryKey
-import java.sql.Date
+import android.arch.persistence.room.*
+import java.util.*
 
 
 @Entity(
@@ -24,7 +21,7 @@ import java.sql.Date
                 )
         )
 )
-class Comment (
+data class Comment(
         @PrimaryKey(autoGenerate = true)
         var id: Long?,
         @ColumnInfo(name = "post_id")
@@ -34,5 +31,8 @@ class Comment (
         @ColumnInfo(name = "comment_time")
         var commentTime: Date,
         @ColumnInfo(name = "comment_text")
-        var commentText: String )
-{}
+        var commentText: String
+) {
+    @Ignore
+    var user: User? = null;
+}
