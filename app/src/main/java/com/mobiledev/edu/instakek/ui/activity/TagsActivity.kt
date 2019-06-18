@@ -3,6 +3,7 @@ package com.mobiledev.edu.instakek.ui.activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.storage.FirebaseStorage
@@ -20,6 +22,8 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.network.utils.PhotoStorage
+import com.squareup.picasso.Picasso
+import com.stfalcon.frescoimageviewer.ImageViewer
 import java.io.IOException
 
 class TagsActivity : BottomNavigationActivity(2){
@@ -33,6 +37,7 @@ class TagsActivity : BottomNavigationActivity(2){
 
     //ImageView
     private var imageView: ImageView? = null;
+    private var imageView2: ImageView? = null;
 
     //a Uri object to store file path
     private var filePath: Uri? = null;
@@ -40,6 +45,7 @@ class TagsActivity : BottomNavigationActivity(2){
     private var storage: PhotoStorage? =null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Fresco.initialize(this);
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tags)
         setupBottomNavigation()
@@ -52,10 +58,12 @@ class TagsActivity : BottomNavigationActivity(2){
         buttonUpload = findViewById(R.id.buttonUpload)
 
         imageView = findViewById(R.id.imageView)
+        imageView2 = findViewById(R.id.imageView2)
 
         //attaching listener
         buttonChoose!!.setOnClickListener{showFileChooser()}
         buttonUpload!!.setOnClickListener{uploadFile()}
+
 
     }
     private fun showFileChooser() {
@@ -71,6 +79,7 @@ class TagsActivity : BottomNavigationActivity(2){
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data!!.getData() != null) {
             filePath = data!!.getData()
             try {
+
                 val bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath)
                 imageView!!.setImageBitmap(bitmap)
 
@@ -92,7 +101,7 @@ class TagsActivity : BottomNavigationActivity(2){
 
     fun uploadFile(){
        Log.d(Tag,"upload photo")
-        uploadFiles(filePath, FirebaseStorage.getInstance().reference,this)
+        uploadFiles(filePath, FirebaseStorage.getInstance().reference,this,1)
     }
 
 
@@ -102,7 +111,7 @@ class TagsActivity : BottomNavigationActivity(2){
     }
 
 
-     fun uploadFiles(filePath: Uri?, storageReference: StorageReference, appContext: Context) {
+     fun uploadFiles(filePath: Uri?, storageReference: StorageReference, appContext: Context,userId:Long) {
         //if there is a file to upload
         Log.d("TagActivity",filePath.toString())
         if (filePath != null) {
@@ -112,7 +121,12 @@ class TagsActivity : BottomNavigationActivity(2){
             progressDialog.setTitle("Uploading")
             progressDialog.show()
 
-            val riversRef = storageReference.child("images/pic.jpg")
+            val imageName:String
+            imageName = userId.toString().plus(java.util.Calendar.getInstance().timeInMillis)
+
+
+
+            val riversRef = storageReference.child("images/".plus(imageName).plus(".jpg"))
             riversRef.putFile(filePath)
                     .addOnSuccessListener(object : OnSuccessListener<UploadTask.TaskSnapshot> {
                         override  fun onSuccess(taskSnapshot: UploadTask.TaskSnapshot) {
@@ -122,7 +136,14 @@ class TagsActivity : BottomNavigationActivity(2){
 
                             //and displaying a success toast
                             Toast.makeText(appContext, "File Uploaded ", Toast.LENGTH_LONG).show()
+
+                            Picasso.get()
+                                    .load("gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg"))
+                                    //.fit()
+                                    .into(imageView2)
                         }
+
+                        //TODO from here insert with  "gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg")
                     })
                     .addOnFailureListener(object : OnFailureListener {
                         override  fun onFailure(@NonNull exception: Exception) {
@@ -143,10 +164,21 @@ class TagsActivity : BottomNavigationActivity(2){
                             progressDialog.setMessage("Uploaded " + progress.toInt() + "%...")
                         }
                     })
+
         } else {
             //you can display an error toast
         }//if there is not any file
     }
+
+    //    fun zoomPhoto(url:String)
+//    {                var listimages  =arrayOf (url);
+//        ImageViewer.Builder(this, listimages)
+//                // .setPlaceholderImage();
+//                // .setStartPosition(startPosition)
+//
+//                .allowZooming(true)
+//                .allowSwipeToDismiss(true)
+//                .show();}
 
 
 

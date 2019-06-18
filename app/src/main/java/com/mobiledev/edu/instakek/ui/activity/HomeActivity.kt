@@ -13,6 +13,7 @@ import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
 import com.mobiledev.edu.instakek.ui.viewModel.UserViewModel
 import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
+import com.stfalcon.frescoimageviewer.ImageViewer
 
 class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler {
 
@@ -65,7 +66,6 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
                 mPostsAdapter!!.setPosts(list)
             })
         }
-
 //        mLoadingIndicator = findViewById(R.id.pb_loading_indicator) as ProgressBar
 
         loadPostsData()
@@ -100,6 +100,9 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
         mRecyclerView!!.makeInvisible()
         //mErrorMessageDisplay!!.makeInvisible()
     }
+
+
+
 
     /*inner class FetchWeatherTask : AsyncTask<String, Void, Array<String>>() {
 
