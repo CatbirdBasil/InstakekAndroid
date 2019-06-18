@@ -138,9 +138,9 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
         val context = this
 
         if (post.isLikedByCurrentUser) {
-            mPostViewModel!!.likePost(post.id!!)
+            mPostViewModel!!.likePost(post.id)
         } else {
-            mPostViewModel!!.dislikePost(post.id!!)
+            mPostViewModel!!.dislikePost(post.id)
         }
     }
 

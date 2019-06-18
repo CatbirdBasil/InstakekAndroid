@@ -14,7 +14,7 @@ interface ChannelDao : GenericDao<Channel> {
     @Query("SELECT * FROM channel WHERE id = :id")
     override fun getById(id: Long): LiveData<Channel>
 
-    @Query("SELECT * FROM channel WHERE id = :id")
+    @Query("SELECT * FROM channel WHERE id = (SELECT channel_id FROM post WHERE :id)")
     fun getChannelByPostId(id: Long): Channel
 
 }

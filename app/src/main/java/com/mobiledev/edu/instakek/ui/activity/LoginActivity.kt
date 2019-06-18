@@ -219,7 +219,7 @@ class LoginActivity : AppCompatActivity() {
     private fun processToHomeActivity() {
         var intent: Intent = Intent(this, HomeActivity::class.java)
 
-        startActivity(intent)
+        runOnUiThread { startActivity(intent) }
         finish()
     }
 

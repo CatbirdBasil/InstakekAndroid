@@ -25,7 +25,7 @@ import java.util.*
 )
 class Channel(
         @PrimaryKey(autoGenerate = false)
-    var id: Long?,
+        var id: Long,
         @ColumnInfo(name = "creator_id")
     var creatorId: Long,
         @ColumnInfo(name = "channel_type_id")

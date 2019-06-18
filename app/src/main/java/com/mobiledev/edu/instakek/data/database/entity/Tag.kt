@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(tableName = "tag")
 class Tag (
         @PrimaryKey(autoGenerate = false)
-    var id: Long?,
+        var id: Long,
         @ColumnInfo(name = "tag_text")
     var tagText: String
 )

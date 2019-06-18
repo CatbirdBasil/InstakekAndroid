@@ -1,5 +1,8 @@
 package com.mobiledev.edu.instakek.ui.adapter
 
+import android.app.Activity
+import android.os.AsyncTask
+import android.os.SystemClock
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +44,15 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
                 val adapterPosition = adapterPosition
                 val currentPost = mPosts!![adapterPosition]
                 currentPost.isLikedByCurrentUser = !currentPost.isLikedByCurrentUser
-                changeButtonAppearence(this, currentPost)
+                if (currentPost.isLikedByCurrentUser) {
+                    currentPost.likesAmount = currentPost.likesAmount!! + 1
+                } else {
+                    currentPost.likesAmount = currentPost.likesAmount!! - 1
+                }
+                mLikesTextView.text = this.itemView
+                        .context.applicationContext
+                        .getString(R.string.post_likes, currentPost.likesAmount!!.toString())
+                changeButtonAppearance(this, currentPost)
                 mLikeClickHandler.onLikeClick(currentPost)
             }
         }
@@ -67,20 +78,28 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
     override fun onBindViewHolder(postsAdapterViewHolder: PostsAdapterViewHolder, position: Int) {
         val currentPost = mPosts!![position]
 
-        while (currentPost.channel == null) {
-            postsAdapterViewHolder.mChannelNameTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_channel_name_loading)
-        }
-        postsAdapterViewHolder.mChannelNameTextView.text = currentPost.channel!!.channelName
+        AsyncTask.execute {
+            while (currentPost.channel == null) {
+                SystemClock.sleep(10)
+                //postsAdapterViewHolder.mChannelNameTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_channel_name_loading)
+            }
 
-        while (currentPost.likesAmount == null) {
-            postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_likes_loading)
-        }
-        postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context
-                .applicationContext.getString(R.string.post_likes, currentPost.likesAmount.toString())
+            (postsAdapterViewHolder.itemView.context as Activity).runOnUiThread {
+                postsAdapterViewHolder.mChannelNameTextView.text = currentPost.channel!!.channelName
+            }
 
+            while (currentPost.likesAmount == null) {
+                SystemClock.sleep(10)
+                //postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context.applicationContext.getString(R.string.post_likes_loading)
+            }
+            (postsAdapterViewHolder.itemView.context as Activity).runOnUiThread {
+                postsAdapterViewHolder.mLikesTextView.text = postsAdapterViewHolder.itemView.context
+                        .applicationContext.getString(R.string.post_likes, currentPost.likesAmount.toString())
+            }
+        }
         postsAdapterViewHolder.mDescriptionTextView.text = currentPost.text
 
-        changeButtonAppearence(postsAdapterViewHolder, currentPost)
+        changeButtonAppearance(postsAdapterViewHolder, currentPost)
     }
 
     override fun getItemCount(): Int {
@@ -92,15 +111,26 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
         notifyDataSetChanged()
     }
 
-    fun changeButtonAppearence(postsAdapterViewHolder: PostsAdapterViewHolder, currentPost: Post) {
-        if (currentPost.isLikedByCurrentUser) {
-            postsAdapterViewHolder
-                    .mLikeButton.background = postsAdapterViewHolder.itemView.context
-                    .applicationContext.getDrawable(R.drawable.like_button_active)
-        } else {
-            postsAdapterViewHolder
-                    .mLikeButton.background = postsAdapterViewHolder.itemView.context
-                    .applicationContext.getDrawable(R.drawable.like_button)
+    fun changeButtonAppearance(postsAdapterViewHolder: PostsAdapterViewHolder, currentPost: Post) {
+
+        AsyncTask.execute {
+            while (currentPost.likes == null) {
+                SystemClock.sleep(10)
+            }
+
+            (postsAdapterViewHolder.itemView.context as Activity).runOnUiThread {
+                if (currentPost.isLikedByCurrentUser) {
+                    postsAdapterViewHolder
+                            .mLikeButton.background = postsAdapterViewHolder.itemView.context
+                            .applicationContext.getDrawable(R.drawable.like_button_active)
+                } else {
+                    postsAdapterViewHolder
+                            .mLikeButton.background = postsAdapterViewHolder.itemView.context
+                            .applicationContext.getDrawable(R.drawable.like_button)
+                }
+            }
+
         }
+
     }
 }

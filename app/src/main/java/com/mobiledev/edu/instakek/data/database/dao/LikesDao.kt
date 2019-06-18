@@ -10,7 +10,7 @@ interface LikesDao {
     @Query("SELECT * FROM USER JOIN likes ON USER.id = likes.user_id WHERE likes.post_id = :id")
     fun getLikedUsersByPostId(id: Long): List<User>
 
-    @Query("SELECT COUNT(*) FROM USER JOIN likes ON USER.id = likes.user_id WHERE likes.post_id = :id")
+    @Query("SELECT COUNT(*) FROM likes WHERE likes.post_id = :id")
     fun countLikedUsersByPostId(id: Long): Long
 
     @Query("SELECT COUNT(*) FROM likes WHERE likes.post_id = :postId AND likes.user_id = :userId")
