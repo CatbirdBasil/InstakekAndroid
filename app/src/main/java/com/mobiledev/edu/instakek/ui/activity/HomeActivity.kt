@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.widget.Toast
+import com.facebook.drawee.backends.pipeline.Fresco
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.database.entity.Post
 import com.mobiledev.edu.instakek.data.network.utils.NetworkUtils
@@ -17,10 +18,12 @@ import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
 import com.mobiledev.edu.instakek.utils.ActivityUtils
 import com.mobiledev.edu.instakek.utils.extentions.makeInvisible
 import com.mobiledev.edu.instakek.utils.extentions.makeVisible
+import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler,
-        PostsAdapter.LikeOnClickHandler {
+        PostsAdapter.LikeOnClickHandler , PostsAdapter.ImageOnClickHandler{
+
 
     companion object {
         private val TAG = HomeActivity::class.qualifiedName
@@ -40,6 +43,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
         setContentView(R.layout.activity_home)
         setupBottomNavigation()
 
+        Fresco.initialize(this)
         mRecyclerView = findViewById(R.id.recyclerview_posts)
 
 //        mErrorMessageDisplay = findViewById(R.id.tv_error_message_display) as TextView
@@ -52,7 +56,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
 
         mRecyclerView!!.setHasFixedSize(true)
 
-        mPostsAdapter = PostsAdapter(this, this)
+        mPostsAdapter = PostsAdapter(this, this,this)
 
         mRecyclerView!!.adapter = mPostsAdapter
 
@@ -152,5 +156,14 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
     private fun showErrorMessage() {
         mRecyclerView!!.makeInvisible()
         //mErrorMessageDisplay!!.makeInvisible()
+    }
+
+    override fun onImageClick(post: Post) {
+        ImageViewer.Builder(this, post.contents)
+                // .setPlaceholderImage();
+                // .setStartPosition(startPosition)
+                .allowZooming(true)
+                .allowSwipeToDismiss(true)
+                .show();
     }
 }
