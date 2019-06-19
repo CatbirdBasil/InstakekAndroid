@@ -12,7 +12,6 @@ import android.widget.Toast
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.database.entity.Post
-import com.mobiledev.edu.instakek.data.database.entity.Tag
 import com.mobiledev.edu.instakek.data.network.utils.NetworkUtils
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
 import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
@@ -23,7 +22,7 @@ import com.stfalcon.frescoimageviewer.ImageViewer
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnClickHandler,
-        PostsAdapter.LikeOnClickHandler , PostsAdapter.ImageOnClickHandler{
+        PostsAdapter.LikeOnClickHandler, PostsAdapter.ImageOnClickHandler {
 
 
     companion object {

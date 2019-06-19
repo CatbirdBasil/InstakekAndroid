@@ -17,9 +17,10 @@ import com.mobiledev.edu.instakek.data.database.entity.Post
 import com.mobiledev.edu.instakek.ui.adapter.PostsAdapter
 import com.mobiledev.edu.instakek.ui.viewModel.ChannelViewModel
 import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
+import com.stfalcon.frescoimageviewer.ImageViewer
 
 class ProfileActivity : BottomNavigationActivity(4), PostsAdapter.PostsAdapterOnClickHandler,
-        PostsAdapter.LikeOnClickHandler {
+        PostsAdapter.LikeOnClickHandler, PostsAdapter.ImageOnClickHandler {
 
     private val TAG = ProfileActivity::class.qualifiedName
 
@@ -47,7 +48,7 @@ class ProfileActivity : BottomNavigationActivity(4), PostsAdapter.PostsAdapterOn
 
         mRecyclerView!!.setHasFixedSize(false)
 
-        mPostsAdapter = PostsAdapter(this, this)
+        mPostsAdapter = PostsAdapter(this, this, this)
 
         mRecyclerView!!.adapter = mPostsAdapter
 
@@ -98,6 +99,18 @@ class ProfileActivity : BottomNavigationActivity(4), PostsAdapter.PostsAdapterOn
         } else {
             mPostViewModel!!.dislikePost(post.id)
         }
+    }
+
+    override fun onImageClick(post: Post) {
+        Log.d(TAG, post.contents!![0].contentLink)
+        var listimages = arrayOf(post.contents!![0].contentLink);
+
+        ImageViewer.Builder(this, listimages)
+                // .setPlaceholderImage();
+                // .setStartPosition(startPosition)
+                .allowZooming(true)
+                .allowSwipeToDismiss(true)
+                .show();
     }
 
     fun setUsername() {

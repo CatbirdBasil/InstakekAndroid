@@ -18,6 +18,7 @@ import com.mobiledev.edu.instakek.utils.AuthUtils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 
 class PostRepositoryImpl(val context: Context) : PostRepository, FetchingRepository() {
@@ -188,6 +189,7 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
 
                     val channel = response.body()
                     post.channelId = channel.id
+                    post.creationDate = Date()
 
                     val postCallback = postApi.insert(post)
                     postCallback.enqueue(object : Callback<Post> {
