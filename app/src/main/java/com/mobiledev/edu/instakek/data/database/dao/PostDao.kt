@@ -21,4 +21,7 @@ interface PostDao : GenericDao<Post> {
             "AND subscription.is_active = 1 " +
             "ORDER BY post.creation_time DESC")
     fun getPostsFromSubscribedChannels(id: Long): LiveData<List<Post>>
+
+    @Query("SELECT * FROM post WHERE channel_id = :id ORDER BY creation_time DESC")
+    fun getPostsByChannelId(id: Long): List<Post>
 }

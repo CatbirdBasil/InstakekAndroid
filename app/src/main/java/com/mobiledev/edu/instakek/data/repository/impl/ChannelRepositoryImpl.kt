@@ -7,7 +7,10 @@ import android.os.AsyncTask
 import android.util.Log
 import com.mobiledev.edu.instakek.data.database.AppDatabase
 import com.mobiledev.edu.instakek.data.database.dao.*
-import com.mobiledev.edu.instakek.data.database.entity.*
+import com.mobiledev.edu.instakek.data.database.entity.Channel
+import com.mobiledev.edu.instakek.data.database.entity.Likes
+import com.mobiledev.edu.instakek.data.database.entity.Subscription
+import com.mobiledev.edu.instakek.data.database.entity.User
 import com.mobiledev.edu.instakek.data.network.requestApi.ChannelRequests
 import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
 import com.mobiledev.edu.instakek.data.network.utils.NetworkUtils
@@ -70,7 +73,9 @@ class ChannelRepositoryImpl(val context: Context) : ChannelRepository, FetchingR
         val channelLiveData: LiveData<Channel> = channelDao.getBaseChannelByUserId(CURRENT_USER_ID)
 
         return Transformations.map(channelLiveData, { channel ->
-            fetchContentsAndChannelForPosts(channel.posts!!)
+            if (channel != null) {
+                fetchContentsForChannel(channel)
+            }
             channel
         })
     }
@@ -96,8 +101,11 @@ class ChannelRepositoryImpl(val context: Context) : ChannelRepository, FetchingR
         likedUsers.forEach { likesDao.insert(Likes(it.id, postId)) }
     }
 
-    private fun fetchContentsAndChannelForPosts(posts: List<Post>) {
+    private fun fetchContentsForChannel(channel: Channel) {
         AsyncTask.execute {
+            Log.d(TAG, "Fetching data for channle(id = ${channel.id}")
+            val posts = postDao.getPostsByChannelId(channel.id)
+
             posts.forEach {
                 Log.d(TAG, "Curr DB post: ${it.id}, ${it.text}")
                 it.contents = postContentDao.getByPostId(it.id)
@@ -107,6 +115,7 @@ class ChannelRepositoryImpl(val context: Context) : ChannelRepository, FetchingR
                 it.isLikedByCurrentUser = likesDao
                         .amountOfLikesFromUserToPost(CURRENT_USER_ID, it.id) > 0
             }
+            channel.posts = posts
         }
     }
 

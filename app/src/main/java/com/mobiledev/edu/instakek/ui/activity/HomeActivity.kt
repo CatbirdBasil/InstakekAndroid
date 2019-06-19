@@ -50,7 +50,7 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
 
         mRecyclerView!!.layoutManager = layoutManager
 
-        mRecyclerView!!.setHasFixedSize(true)
+        mRecyclerView!!.setHasFixedSize(false)
 
         mPostsAdapter = PostsAdapter(this, this)
 
