@@ -48,6 +48,7 @@ class RegisterActivity : AppCompatActivity(){
     private fun getRegistration() {
         var user:User = User(6,username.getText().toString(),email.getText().toString(),firstName.getText().toString(),secondname.getText().toString(), Calendar.getInstance().time,"https://medialeaks.ru/wp-content/uploads/2018/11/12-1.jpg",true)
         mUserViewModel!!.registerNewUser(user)
+
     }
 
 
