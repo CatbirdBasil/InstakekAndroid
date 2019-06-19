@@ -15,7 +15,9 @@ import com.mobiledev.edu.instakek.data.database.entity.Post
 import com.squareup.picasso.Picasso
 
 class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
-                   private val mLikeClickHandler: LikeOnClickHandler)
+                   private val mLikeClickHandler: LikeOnClickHandler,
+                   private val mImageClickHandler:ImageOnClickHandler
+                   )
     : RecyclerView.Adapter<PostsAdapter.PostsAdapterViewHolder>() {
 
     private var mPosts: List<Post>? = null
@@ -27,6 +29,12 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
     interface LikeOnClickHandler {
         fun onLikeClick(post: Post)
     }
+
+
+    interface ImageOnClickHandler {
+        fun onImageClick(post: Post)
+    }
+
 
     inner class PostsAdapterViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         val mLikesTextView: TextView
@@ -43,6 +51,13 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
             imageView = view.findViewById(R.id.post_image)
 
             view.setOnClickListener(this)
+
+            imageView.setOnClickListener{
+                val adapterPosition = adapterPosition
+                val currentPost = mPosts!![adapterPosition]
+                mImageClickHandler.onImageClick(currentPost)
+            }
+
 
             mLikeButton.setOnClickListener {
                 val adapterPosition = adapterPosition

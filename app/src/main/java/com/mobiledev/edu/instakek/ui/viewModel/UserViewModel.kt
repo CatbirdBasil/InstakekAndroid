@@ -23,4 +23,9 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         return userRepository.getAll()
     }
 
+    fun registerNewUser(user:User)
+    {
+        userRepository.insert(user)
+    }
+
 }

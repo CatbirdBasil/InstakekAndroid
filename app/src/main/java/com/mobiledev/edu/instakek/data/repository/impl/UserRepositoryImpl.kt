@@ -96,7 +96,7 @@ class UserRepositoryImpl(val context: Context) : UserRepository, FetchingReposit
     }
 
     override fun insert(user: User) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        insertAsync(user)
     }
 
     override fun update(user: User) {

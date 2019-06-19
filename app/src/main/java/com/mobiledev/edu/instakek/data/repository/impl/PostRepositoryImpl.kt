@@ -178,9 +178,9 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
         }
     }
 
-    private fun insertPostAsync(post: Post) {
+    public override fun insertPostAsync(post: Post) {
 
-        val channelCallback = channelApi.getBaseChannelByUserId(post.id)
+        val channelCallback = channelApi.getBaseChannelByUserId(CURRENT_USER_ID)
         channelCallback.enqueue(object : Callback<Channel> {
 
             override fun onResponse(call: Call<Channel>?, response: Response<Channel>?) {

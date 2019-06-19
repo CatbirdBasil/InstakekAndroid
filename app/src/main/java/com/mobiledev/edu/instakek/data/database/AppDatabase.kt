@@ -11,7 +11,7 @@ import com.mobiledev.edu.instakek.data.database.entity.*
 
 @Database(entities = [User::class, Channel::class, /*ChannelType::class,*/ ChatMessage::class,
     Subscription::class, Post::class, PostContent::class, Likes::class, Comment::class,
-    Tag::class, PostTag::class, UserTag::class/*, UserTagType::class*/], version = 13)
+    Tag::class, PostTag::class, UserTag::class/*, UserTagType::class*/], version = 14)
 @TypeConverters(DateTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

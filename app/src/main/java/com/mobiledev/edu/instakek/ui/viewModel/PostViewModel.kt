@@ -23,7 +23,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun insertPost(post: Post) {
-        postRepository.insert(post)
+        postRepository.insertPostAsync(post)
     }
 
     fun likePost(postId: Long) {
