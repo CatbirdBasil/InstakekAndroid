@@ -3,7 +3,6 @@ package com.mobiledev.edu.instakek.ui.activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,7 +22,6 @@ import com.google.firebase.storage.UploadTask
 import com.mobiledev.edu.instakek.R
 import com.mobiledev.edu.instakek.data.network.utils.PhotoStorage
 import com.squareup.picasso.Picasso
-import com.stfalcon.frescoimageviewer.ImageViewer
 import java.io.IOException
 
 class TagsActivity : BottomNavigationActivity(2){
@@ -101,7 +99,7 @@ class TagsActivity : BottomNavigationActivity(2){
 
     fun uploadFile(){
        Log.d(Tag,"upload photo")
-        uploadFiles(filePath, FirebaseStorage.getInstance().reference,this,1)
+        uploadFiles(filePath, FirebaseStorage.getInstance().reference, this, 1)
     }
 
 
@@ -111,7 +109,7 @@ class TagsActivity : BottomNavigationActivity(2){
     }
 
 
-     fun uploadFiles(filePath: Uri?, storageReference: StorageReference, appContext: Context,userId:Long) {
+    fun uploadFiles(filePath: Uri?, storageReference: StorageReference, appContext: Context, userId: Long) {
         //if there is a file to upload
         Log.d("TagActivity",filePath.toString())
         if (filePath != null) {
@@ -121,9 +119,8 @@ class TagsActivity : BottomNavigationActivity(2){
             progressDialog.setTitle("Uploading")
             progressDialog.show()
 
-            val imageName:String
+            val imageName: String
             imageName = userId.toString().plus(java.util.Calendar.getInstance().timeInMillis)
-
 
 
             val riversRef = storageReference.child("images/".plus(imageName).plus(".jpg"))

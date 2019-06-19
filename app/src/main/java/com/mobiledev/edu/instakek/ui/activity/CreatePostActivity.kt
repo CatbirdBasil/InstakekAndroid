@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.provider.MediaStore
 import android.support.annotation.NonNull
+import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.AppCompatEditText
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -23,10 +25,13 @@ import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.mobiledev.edu.instakek.R
+import com.mobiledev.edu.instakek.data.database.entity.Post
+import com.mobiledev.edu.instakek.data.database.entity.PostContent
 import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
 import com.mobiledev.edu.instakek.utils.AuthUtils
 import com.squareup.picasso.Picasso
 import java.io.IOException
+import java.util.*
 
 
 class CreatePostActivity : AppCompatActivity() {
@@ -38,16 +43,17 @@ class CreatePostActivity : AppCompatActivity() {
 
     private val Tag = "CreatePostActivity"
 
-    private var  buttonChoose: Button? = null;
+    private var buttonChoose: Button? = null;
     private var buttonUpload: Button? = null;
     private var backButton: ImageButton? = null;
+    private var description: AppCompatEditText? = null
 
     //ImageView
     private var imageView: ImageView? = null;
 
     private var filePath: Uri? = null;
 
-    private lateinit var url :String;
+    private lateinit var url: String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,15 +62,15 @@ class CreatePostActivity : AppCompatActivity() {
         buttonChoose = findViewById(R.id.buttonChoose)
         buttonUpload = findViewById(R.id.buttonUpload)
         backButton = findViewById(R.id.back_button)
-
+        description = findViewById(R.id.caption_input)
 
         imageView = findViewById(R.id.imageView)
 
 
         //attaching listener
-        buttonChoose!!.setOnClickListener{showFileChooser()}
-        buttonUpload!!.setOnClickListener{uploadFile()}
-        backButton!!.setOnClickListener{goBack()}
+        buttonChoose!!.setOnClickListener { showFileChooser() }
+        buttonUpload!!.setOnClickListener { uploadFile() }
+        backButton!!.setOnClickListener { goBack() }
 
         mPostViewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
 
@@ -103,57 +109,56 @@ class CreatePostActivity : AppCompatActivity() {
     }
 
 
-    fun uploadFile(){
-        Log.d(Tag,"upload photo")
-        uploadFiles(filePath, FirebaseStorage.getInstance().reference,this,AuthUtils.CURRENT_USER_ID)
+    fun uploadFile() {
+        Log.d(Tag, "upload photo")
+        uploadFiles(filePath, FirebaseStorage.getInstance().reference, this, AuthUtils.CURRENT_USER_ID)
     }
 
 
-
-
-    fun uploadFiles(filePath: Uri?, storageReference: StorageReference, appContext: Context, userId:Long) {
+    fun uploadFiles(filePath: Uri?, storageReference: StorageReference, appContext: Context, userId: Long) {
         //if there is a file to upload
-        Log.d("TagActivity",filePath.toString())
+        Log.d("TagActivity", filePath.toString())
         if (filePath != null) {
-            Log.d("TagActivity","Photo")
+            Log.d("TagActivity", "Photo")
             //displaying a progress dialog while upload is going on
-            val progressDialog = ProgressDialog(appContext)
-            progressDialog.setTitle("Uploading")
-            progressDialog.show()
+            //val progressDialog = ProgressDialog(appContext)
+            //progressDialog.setTitle("Uploading")
+            //progressDialog.show()
 
-            val imageName:String
+            val imageName: String
             imageName = userId.toString().plus('_').plus(java.util.Calendar.getInstance().timeInMillis)
 
-
+            url = "gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg")
 
             val riversRef = storageReference.child("images/".plus(imageName).plus(".jpg"))
             riversRef.putFile(filePath)
                     .addOnSuccessListener(object : OnSuccessListener<UploadTask.TaskSnapshot> {
-                        override  fun onSuccess(taskSnapshot: UploadTask.TaskSnapshot) {
-
-                            progressDialog.dismiss()
+                        override fun onSuccess(taskSnapshot: UploadTask.TaskSnapshot) {
+                            Log.d("LOaded","!!!!!!!!!")
+                            //progressDialog.dismiss()
 
                             //and displaying a success toast
-                            Toast.makeText(appContext, "File Uploaded ", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(appContext, "File Uploaded ", Toast.LENGTH_LONG).show()
 
 
+                            var post: Post = Post(150, 0, Calendar.getInstance().time,
+                                    0, description!!.text.toString())
+                            post.contents = listOf(PostContent(150, 150, url))
+                            if(mPostViewModel!=null) {
+                                mPostViewModel!!.insertPost(post)
+                            }
+                            else{Log.d("Problem","Big")}
 
-
-                            Picasso.get()
-                                    .load("gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg"))
-                                    //.fit()
-                                    .into(imageView)
                         }
-
 
 
                         //TODO from here insert with  "gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg")
                     })
                     .addOnFailureListener(object : OnFailureListener {
-                        override  fun onFailure(@NonNull exception: Exception) {
+                        override fun onFailure(@NonNull exception: Exception) {
                             //if the upload is not successfull
                             //hiding the progress dialog
-                            progressDialog.dismiss()
+                            //progressDialog.dismiss()
 
                             //and displaying error message
                             Toast.makeText(appContext, exception.message, Toast.LENGTH_LONG).show()
@@ -165,13 +170,20 @@ class CreatePostActivity : AppCompatActivity() {
                             val progress = 100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount()
 
                             //displaying percentage in progress dialog
-                            progressDialog.setMessage("Uploaded " + progress.toInt() + "%...")
+                            //progressDialog.setMessage("Uploaded " + progress.toInt() + "%...")
                         }
                     })
 
         } else {
             //you can display an error toast
         }//if there is not any file
+
+
+        var intent: Intent = Intent(this, HomeActivity::class.java)
+
+        startActivity(intent)
+        finish()
+
     }
 
 

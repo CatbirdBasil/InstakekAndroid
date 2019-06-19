@@ -4,22 +4,13 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.net.Uri
 import android.support.annotation.NonNull
-import android.widget.ImageView
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.OnProgressListener
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
-import android.provider.MediaStore
-import android.graphics.Bitmap
-import android.util.Log
-import java.io.File
-import kotlin.concurrent.thread
-import kotlin.reflect.jvm.internal.impl.load.java.lazy.ContextKt.child
-import com.google.firebase.storage.FileDownloadTask
-import retrofit2.http.Url
 
 
 class PhotoStorage {

@@ -7,10 +7,8 @@ import android.os.AsyncTask
 import android.util.Log
 import com.mobiledev.edu.instakek.data.database.AppDatabase
 import com.mobiledev.edu.instakek.data.database.dao.*
-import com.mobiledev.edu.instakek.data.database.entity.Likes
-import com.mobiledev.edu.instakek.data.database.entity.Post
-import com.mobiledev.edu.instakek.data.database.entity.Subscription
-import com.mobiledev.edu.instakek.data.database.entity.User
+import com.mobiledev.edu.instakek.data.database.entity.*
+import com.mobiledev.edu.instakek.data.network.requestApi.ChannelRequests
 import com.mobiledev.edu.instakek.data.network.requestApi.PostRequests
 import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
 import com.mobiledev.edu.instakek.data.network.utils.NetworkUtils
@@ -39,27 +37,9 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
     private val likesDao: LikesDao = database.likesDao()
 
     private val postApi: PostRequests = ApiEndpoints.Post
+    private val channelApi: ChannelRequests = ApiEndpoints.Channel
 
     private val CURRENT_USER_ID = AuthUtils.CURRENT_USER_ID
-
-//    private var isRecent: Boolean = false
-//    private var isFetchingData: Boolean = false
-//    private var isFetchingDataLiveData: MutableLiveData<Boolean> = MutableLiveData()
-//
-//    init {
-//        isFetchingDataLiveData.value = false
-//    }
-//
-//    override fun invalidateData() {
-//        isRecent = false
-//    }
-//
-//    override fun isFetchingData(): LiveData<Boolean> {
-//        if (isFetchingDataLiveData.value != isFetchingData) {
-//            isFetchingDataLiveData.value = isFetchingData
-//        }
-//        return isFetchingDataLiveData
-//    }
 
     override fun getAll(): LiveData<List<Post>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -134,16 +114,11 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
             posts.forEach {
                 Log.d(TAG, "Curr DB post: ${it.id}, ${it.text}")
                 it.contents = postContentDao.getByPostId(it.id)
-                Log.d(TAG, "CURR CONTENT: ${it.contents!![0].contentLink}")
                 it.channel = channelDao.getChannelByPostId(it.id!!)
-                Log.d(TAG, "CURR CHANNEL: ${it.channel!!.channelName}")
                 it.likes = likesDao.getLikedUsersByPostId(it.id!!)
-                Log.d(TAG, "CURR LIKES: ${it.likes}")
                 it.likesAmount = likesDao.countLikedUsersByPostId(it.id!!)
-                Log.d(TAG, "LIKES AMOUNT: ${it.likesAmount}")
                 it.isLikedByCurrentUser = likesDao
                         .amountOfLikesFromUserToPost(CURRENT_USER_ID, it.id!!) > 0
-                Log.d(TAG, "IS LIKED: ${it.isLikedByCurrentUser}")
             }
         }
     }
@@ -202,6 +177,61 @@ class PostRepositoryImpl(val context: Context) : PostRepository, FetchingReposit
         AsyncTask.execute {
             likesDao.delete(Likes(CURRENT_USER_ID, postId))
         }
+    }
+
+    public override fun insertPostAsync(post: Post) {
+
+        val channelCallback = channelApi.getBaseChannelByUserId(CURRENT_USER_ID)
+        channelCallback.enqueue(object : Callback<Channel> {
+
+            override fun onResponse(call: Call<Channel>?, response: Response<Channel>?) {
+                if (response!!.isSuccessful) {
+
+                    val channel = response.body()
+                    post.channelId = channel.id
+
+                    val postCallback = postApi.insert(post)
+                    postCallback.enqueue(object : Callback<Post> {
+
+                        override fun onResponse(call: Call<Post>?, response: Response<Post>?) {
+                            if (response!!.isSuccessful) {
+                                AsyncTask.execute {
+                                    database.runInTransaction(Runnable {
+                                        postDao.insert(response.body())
+
+                                        var tempId: Long = 1
+                                        post.contents!!.forEach {
+                                            it.postId = response.body().id
+                                            it.id = tempId
+                                            tempId++
+
+                                            postContentDao.insert(it)
+                                        }
+                                    })
+                                }
+                            } else {
+                                Log.d(TAG, "Error occurred while creating post on server " +
+                                        "Error code: ${response.code()}")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Post>?, t: Throwable?) {
+                            Log.d(TAG, "Error occurred while creating post on server", t)
+                        }
+                    })
+
+                } else {
+                    Log.d(TAG, "Error occurred while fetching user base channel " +
+                            "Error code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<Channel>?, t: Throwable?) {
+                Log.d(TAG, "Error occurred while fetching user base channel", t)
+            }
+        })
+
+
     }
 
 //    private fun insertPost(post:Post){

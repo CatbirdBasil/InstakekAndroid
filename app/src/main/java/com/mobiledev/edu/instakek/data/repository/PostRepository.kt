@@ -9,4 +9,5 @@ interface PostRepository : BaseRepository<Post> {
 
     fun likePost(postId: Long)
     fun dislikePost(postId: Long)
+    fun insertPostAsync(post: Post)
 }

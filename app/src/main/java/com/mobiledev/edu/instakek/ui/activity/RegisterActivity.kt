@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.AppCompatEditText
 import android.util.Log
 import android.widget.Button
 import com.mobiledev.edu.instakek.R
@@ -16,11 +17,11 @@ import java.util.*
 class RegisterActivity : AppCompatActivity(){
 
     private lateinit var register : Button
-    lateinit var  firstName:TextInputEditText
-    lateinit var  secondname:TextInputEditText
-    lateinit var  email:TextInputEditText
-    lateinit var  username:TextInputEditText
-    lateinit var  password:TextInputEditText
+    lateinit var  firstName:AppCompatEditText
+    lateinit var  secondname: AppCompatEditText
+    lateinit var  email:AppCompatEditText
+    lateinit var  username:AppCompatEditText
+    lateinit var  password:AppCompatEditText
     private var mUserViewModel: UserViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

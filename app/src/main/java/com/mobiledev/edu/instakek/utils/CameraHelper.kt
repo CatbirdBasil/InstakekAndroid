@@ -10,7 +10,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CameraHelper (private val activity: Activity){
+class CameraHelper(private val activity: Activity) {
 
     fun takeCameraPicture() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -25,19 +25,18 @@ class CameraHelper (private val activity: Activity){
     }
 
 
-        var imageUri: Uri? = null
-        val REQUEST_CODE = 1
-        private val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
+    var imageUri: Uri? = null
+    val REQUEST_CODE = 1
+    private val simpleDateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US)
 
 
-
-        private fun createImageFile(): File {
-            val storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            return File.createTempFile(
-                    "JPEG_${simpleDateFormat.format(Date())}_",
-                    ".jpg",
-                    storageDir
-            )
-        }
-
+    private fun createImageFile(): File {
+        val storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+                "JPEG_${simpleDateFormat.format(Date())}_",
+                ".jpg",
+                storageDir
+        )
     }
+
+}

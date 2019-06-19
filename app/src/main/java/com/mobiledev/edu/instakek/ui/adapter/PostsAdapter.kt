@@ -41,7 +41,7 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
         val mChannelNameTextView: TextView
         val mDescriptionTextView: TextView
         val mLikeButton: Button
-        val imageView:ImageView
+        val imageView: ImageView
 
         init {
             mLikesTextView = view.findViewById(R.id.tv_post_likes) as TextView
@@ -120,7 +120,7 @@ class PostsAdapter(private val mClickHandler: PostsAdapterOnClickHandler,
 
         changeButtonAppearance(postsAdapterViewHolder, currentPost)
 
-        if(currentPost.contents!=null) {
+        if (currentPost.contents != null) {
             Picasso.get()
                     .load(currentPost.contents!![0].contentLink)
                     //.fit()
