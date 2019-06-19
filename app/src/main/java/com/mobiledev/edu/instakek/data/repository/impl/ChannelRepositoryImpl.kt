@@ -9,7 +9,6 @@ import com.mobiledev.edu.instakek.data.database.AppDatabase
 import com.mobiledev.edu.instakek.data.database.dao.*
 import com.mobiledev.edu.instakek.data.database.entity.Channel
 import com.mobiledev.edu.instakek.data.database.entity.Likes
-import com.mobiledev.edu.instakek.data.database.entity.Subscription
 import com.mobiledev.edu.instakek.data.database.entity.User
 import com.mobiledev.edu.instakek.data.network.requestApi.ChannelRequests
 import com.mobiledev.edu.instakek.data.network.utils.ApiEndpoints
@@ -87,8 +86,6 @@ class ChannelRepositoryImpl(val context: Context) : ChannelRepository, FetchingR
                 channel.posts!!.forEach {
                     Log.d(TAG, "Curr post: ${it.id}, ${it.text}")
                     postDao.insert(it)
-                    subscriptionDao.insertSubscription(
-                            Subscription(it.channelId, CURRENT_USER_ID, true))
                     synchroniseLikesWithRemoteDb(it.id, *it.likes!!.toTypedArray())
                     postContentDao.insertAll(*it.contents!!.toTypedArray())
                 }

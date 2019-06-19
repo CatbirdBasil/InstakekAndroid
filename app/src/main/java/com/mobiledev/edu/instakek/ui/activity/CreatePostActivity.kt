@@ -1,19 +1,15 @@
 package com.mobiledev.edu.instakek.ui.activity
 
-import android.app.ProgressDialog
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.provider.MediaStore
 import android.support.annotation.NonNull
-import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatEditText
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -29,7 +25,6 @@ import com.mobiledev.edu.instakek.data.database.entity.Post
 import com.mobiledev.edu.instakek.data.database.entity.PostContent
 import com.mobiledev.edu.instakek.ui.viewModel.PostViewModel
 import com.mobiledev.edu.instakek.utils.AuthUtils
-import com.squareup.picasso.Picasso
 import java.io.IOException
 import java.util.*
 
@@ -128,7 +123,7 @@ class CreatePostActivity : AppCompatActivity() {
             val imageName: String
             imageName = userId.toString().plus('_').plus(java.util.Calendar.getInstance().timeInMillis)
 
-            url = "gs://instakekandroid.appspot.com/images/".plus(imageName).plus(".jpg")
+            url = "https://firebasestorage.googleapis.com/v0/b/instakekandroid.appspot.com/o/images%2F".plus(imageName).plus(".jpg?")
 
             val riversRef = storageReference.child("images/".plus(imageName).plus(".jpg"))
             riversRef.putFile(filePath)
@@ -142,7 +137,7 @@ class CreatePostActivity : AppCompatActivity() {
 
 
                             var post: Post = Post(150, 0, Calendar.getInstance().time,
-                                    0, description!!.text.toString())
+                                    null, description!!.text.toString())
                             post.contents = listOf(PostContent(150, 150, url))
                             if(mPostViewModel!=null) {
                                 mPostViewModel!!.insertPost(post)

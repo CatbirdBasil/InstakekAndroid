@@ -159,14 +159,24 @@ class HomeActivity : BottomNavigationActivity(0), PostsAdapter.PostsAdapterOnCli
     }
 
     override fun onImageClick(post: Post) {
-        Log.d("Home",post.contents!![0].contentLink)
-             var listimages  =arrayOf (post.contents!![0].contentLink);
 
-        ImageViewer.Builder(this, listimages)
-                // .setPlaceholderImage();
-                // .setStartPosition(startPosition)
-                .allowZooming(true)
-                .allowSwipeToDismiss(true)
-                .show();
+        AsyncTask.execute {
+
+            while (post.contents == null) {
+                SystemClock.sleep(10)
+            }
+            Log.d("Home", post.contents!![0].contentLink)
+            var listimages = arrayOf(post.contents!![0].contentLink);
+
+            runOnUiThread {
+                ImageViewer.Builder(this, listimages)
+                        // .setPlaceholderImage();
+                        // .setStartPosition(startPosition)
+                        .allowZooming(true)
+                        .allowSwipeToDismiss(true)
+                        .show();
+            }
+        }
+
     }
 }
